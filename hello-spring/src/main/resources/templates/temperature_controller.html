@@ -1,0 +1,337 @@
+<!DOCTYPE html lang="kr" >
+    <head>
+        <meta charset="utf-8">
+        <title>온도 조절</title>
+        <link rel="stylesheet" href="temperature_controller.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <tag autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+        <script src="Resource/jquery-3.4.1.min.js" charset="utf-8"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
+        <link rel="stylesheet" href="Resource/fontawesome/css/all.css"> <!--this enabled when it can't access fontawesome web site-->
+    </head>
+    <body>
+        <span class="header">
+            <h2 class="logo" style="--tooltip-string: '제작자 : 안동대학교 정보통신공학과 15학번 김태훈 & \A        컴퓨터공학과 14학번 건희\A  ';">ANU IoT & Embedded System</h2>
+            <input type="checkbox" id="chk">
+            <label for="chk" class="show-menu-btn">
+                <i class="fas fa-ellipsis-h"></i>
+            </label>
+                                    
+            <ul class="menu">
+                <a href="home.html">Home</a>
+                <a href="LED.html">LED</a>
+                <a href="doorLock.html">DoorLock Control</a>
+                <a href="plug.html">Power Check</a>
+                <label for="chk" class="hide-menu-btn">
+                    <i class="fas fa-times"></i>
+                </label>    
+            </ul>
+        </span>
+        
+        <noscript>
+                <font color="white">
+                이 사이트의 기능을 모두 활성하기 위해서는 자바스크립트를 활성화 시킬 필요가 있습니다.
+                <a href="https://www.enable-javascript.com/ko/">브라우저에서 자바스크립트를 활성화하는 방법</a>을 참고하세요.
+                </font>
+        </noscript>
+        <form class="keypad_frame">
+            <div class="table">
+                <div class="table_outline">
+                    <table class="inline">
+                        <tr>
+                            <td colspan='4'>
+                                <form name = "form">
+                                    <input class='textview' name="textview" onkeydown="filterNumber(event)">
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input class="number_button" type="button" value="1" id="1" onclick="insert(1)"></td>
+                            <td><input class="number_button" type="button" value="2" id="2" onclick="insert(2)"></td>
+                            <td><input class="number_button" type="button" value="3" id="3" onclick="insert(3)"></td>
+                            <td><input class="number_button" type="button" value="←" id="backspace" onclick="insert('backspace')"></td>
+                        </tr>
+                        <tr>
+                            <td><input class="number_button" type="button" value="4" id="4" onclick="insert(4)"></td>
+                            <td><input class="number_button" type="button" value="5" id="5" onclick="insert(5)"></td>
+                            <td><input class="number_button" type="button" value="6" id="6" onclick="insert(6)"></td>
+                            <td rowspan="3"><input class="SEND_button" type="button" id="send" value="send" onclick="insert('send')"></td>
+                        </tr>
+                        <tr>
+                            <td><input class="number_button" type="button" value="7" id="7" onclick="insert(7)"></td>
+                            <td><input class="number_button" type="button" value="8" id="8" onclick="insert(8)"></td>
+                            <td><input class="number_button" type="button" value="9" id="9" onclick="insert(9)"></td>
+                        </tr>
+                        <tr>
+                            <td><input class="number_button" type="button" value="*" id="star" onclick="insert('*')"></td>
+                            <td><input class="number_button" type="button" value="0" id="0" onclick="insert(0)"></td>
+                            <td><input class="number_button" type="button" value="#" id="pound" onclick="insert('#')"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+    </body>
+    <script type="text/javascript">
+        var WebSocket_Buffer=new Uint8Array(2);
+		var isPageMove=false;
+        $(document).ready(function(){
+            $(".textview").val(textview_string);
+            
+            if(!isWebSocketConnected)
+            {
+                WebSocket_Connect();
+            }
+
+            if(isWebSocketConnected)
+            {
+                alert("Connected...");
+            }
+        });
+
+        $("#send").click(function(){
+            if($(".textview").val().length > 0)
+            {
+                if(parseInt($(".textview").val()) < 18)
+                {
+                    alert("18도 미만으로 온도를 설정할 수 없습니다.");
+                    return;
+                }
+
+                WebSocket_Buffer[0]=11;
+                WebSocket_Buffer[1]=parseInt($(".textview").val());
+                ws.send(WebSocket_Buffer);
+            }
+        });
+
+        var WAS_PORTNUM="8080";
+        var WebSocket_URL= "ws://192.168.1.5:"+WAS_PORTNUM;//"ws://anuICE.iptime.org:"+WAS_PORTNUM;
+        var ws;
+        var isWebSocketConnected=false; // 페이지를 벗어날때, WebSocket종료시 엣지브라우저에서 'WebSocket Error'가 일어나는 것을 해결하기 위한 데이터
+        var isWindowUnload=false;
+        var isToldError_when_occured=false;
+        window.onbeforeunload=function(e){
+            isWindowUnload=true;
+            isPageMove=true;
+            ws.close();
+            return '페이지를 나가시겠습니까?';
+        };
+
+        function WebSocket_Connect()
+        {
+            ws=new WebSocket(WebSocket_URL);
+            ws.onopen = WebSocket_onOpen;
+            ws.onmessage = Websocket_onMessage;
+            ws.onclose = WebSocket_onClose;
+            ws.onerror = WebSocket_onError;
+            isToldError_when_occured=false;
+        }
+
+        function WebSocket_onOpen(e)
+        {
+            //txtRecv.append( "connected<br>" );
+            isWebSocketConnected=true;
+            //alert("connected");
+            
+            if(sessionStorage.getItem("isFirstSessionConnected") != "Yes")
+			{
+                alert("보드와 연결되었습니다.");
+                sessionStorage.setItem("isFirstSessionConnected","Yes");
+            }
+        }
+
+        var reader = new FileReader();
+        reader.addEventListener("loadend", function(e) {
+                // if the server sent binary array. (function : Websocket_onMessage(e))
+                var recvBuf=new Uint8Array(e.srcElement.result);
+
+            if(recvBuf[0]==11)
+            {
+                textview_string=recvBuf[1];
+                $(".textview").val(textview_string);
+                alert("섭씨 "+$(".textview").val()+"도로 온도가 설정되었습니다.")
+            }
+        });
+
+        function Websocket_onMessage(e)
+        {
+            if(e.data instanceof Blob)
+            reader.readAsArrayBuffer(e.data);
+            else
+            {
+                // if the server sent string(message).
+                alert(e.data);
+            }
+        }
+
+        function WebSocket_onClose(e)
+        {
+            isWebSocketConnected=false;
+            //alert("closed");
+
+            
+            if(!isPageMove)
+				alert("임베디드 보드와 연결이 끊어졌습니다.\n컴퓨터와 임베디드 보드의 인터넷 연결을 확인하세요.")
+        }
+
+        function WebSocket_onError(e)
+        {
+            if(!isWebSocketConnected && !isToldError_when_occured)
+            {
+                
+                if(!isPageMove)
+				    alert("임베디드 보드와 연결할 수 없습니다.\n컴퓨터와 임베디드 보드의 인터넷 연결을 확인하세요.");
+                isToldError_when_occured=true;
+            }
+            isWebSocketConnected=false;
+        }
+
+        var textview_string="24";
+        function insert(value){
+
+            switch(value){
+                    case 0:
+                        textview_string+='0';
+                        break;
+                    case 1:
+                        textview_string+='1';
+                        break;
+                    case 2:
+                        textview_string+='2';
+                        break;
+                    case 3:
+                        textview_string+='3';
+                        break;
+                    case 4:
+                        textview_string+='4';
+                        break;
+                    case 5:
+                        textview_string+='5';
+                        break;
+                    case 6:
+                        textview_string+='6';
+                        break;
+                    case 7:
+                        textview_string+='7';
+                        break;
+                    case 8:
+                        textview_string+='8';
+                        break;
+                    case 9:
+                        textview_string+='9';
+                        break;
+                    /*case '*':
+                        textview_string+='*';
+                        break;
+                    case '#':
+                        textview_string+='#';
+                        break;*/
+                    case 'backspace':
+                        if(textview_string.length>0){
+                            textview_string = textview_string.slice(0,-1);
+                        }
+                        break;
+                    case 'send':
+                    
+                        break;
+                }
+
+            if(textview_string.length > 2)
+            {
+                alert("100도 이상의 온도로 설정할 수 없습니다.");
+                textview_string = textview_string.slice(0,-1);   
+            }
+
+            $(".textview").val(textview_string);
+        }
+
+        var textview_focus_status=false;
+        $(".textview").on("focus",function(){
+            $(this).addClass("focus");
+            //alert("on focus");
+            textview_focus_status=true;
+        });
+        $(".textview").on("blur",function(){
+            $(this).removeClass("focus");
+            //alert("out focus");
+            textview_focus_status=false;
+        });
+        $('#inputBox').on('keyup', function(e) {
+            var code = e.keyCode || e.which;
+
+            if(e.keyCode!=8 /*&& // backspace
+                !(code == 13) && // enter
+                !((prev_keyCode==17 && e.keyCode==56) || e.keyCode==106) && // *
+                !(prev_keyCode==17 && e.keyCode==51) && // #
+                !(e.keyCode > 47 && e.keyCode < 58) && // 0 ~ 9
+                !(e.keyCode > 95 && e.keyCode < 106)*/) // 0 ~ 9
+            {
+                e.preventDefault();
+            }
+        });
+
+        var prev_keyID;
+        function filterNumber(event)
+        {
+            event = event || window.event;
+            var keyID = (event.which) ? event.which : event.keyCode;
+
+
+            var objEv = event.srcElement;
+            var num ="{}[]()<>?_|~`!@#$%^&*-+\"'\\/ ";    //입력을 막을 특수문자 기재.
+            event.returnValue = true;
+            
+            for (var i=0;i<objEv.value.length;i++)
+            {
+                if(-1 != num.indexOf(objEv.value.charAt(i)))
+                    event.returnValue = false;
+            }
+            if (!event.returnValue)
+            {
+                alert("현재 입력하신 특수문자는 사용하실 수 없습니다.");
+                objEv.value=objEv.value.slice(0,-1);
+            }
+
+            if ( keyID == 8 || keyID == 9 || keyID == 46 || keyID == 37 || keyID == 39)
+                return;
+            else if(prev_keyID!=16 && (47<keyID && keyID<58) || (95<keyID && keyID<106)) // 0~9
+            {
+                prev_keyID=keyID;
+            }
+            else if(prev_keyID==17 && (keyID==65 || keyID==67 || keyID==86 ||  keyID==88 ||  keyID==90)) // Ctrl+(key)
+            {
+                // None
+            }
+            else 
+                event.preventDefault();
+
+            prev_keyID=keyID;
+        }
+        var prev_keyCode;
+        $(document).on('keyup', function(e) {
+            if(!textview_focus_status)
+            {
+                if(e.keyCode==8){
+                    $("#backspace").trigger('click');
+                }
+                /*else if((prev_keyCode==17 && e.keyCode==56) || e.keyCode==106)
+                    $("#star").trigger('click');
+                else if(prev_keyCode==17 && e.keyCode==51)
+                    $("#pound").trigger('click');*/
+                else if(e.keyCode > 47 && e.keyCode < 58){
+                    $("#"+(e.keyCode - 48)).trigger('click');
+                }
+                else if(e.keyCode > 95 && e.keyCode < 106){
+                    $("#"+(e.keyCode - 96)).trigger('click');
+                }
+                prev_keyCode=e.keyCode;
+            }
+            else
+                textview_string=$(".textview").val();
+                
+            if(code == 13 && !textview_focus_status) //Enter keycode
+            {
+                $("#send").trigger('click');
+            }
+        });
+    </script>
+</html>

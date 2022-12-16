@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="kr">
+	<head>
+    <meta charset="utf-8">
+	<title>Power Check</title>
+	<link rel="stylesheet" href="plug.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<tag autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+	<script src="Resource/jquery-3.4.1.min.js" charset="utf-8"></script>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
+	<link rel="stylesheet" href="Resource/fontawesome/css/all.css"> <!--this enabled when it can't access fontawesome web site-->
+	</head>
+	
+	<body>
+	<span class="header">
+		<h2 class="logo" style="--tooltip-string: '제작자 : 안동대학교 정보통신공학과 15학번 김태훈 & \A        컴퓨터공학과 14학번 건희\A  ';">ANU IoT & Embedded System</h2>
+		<input type="checkbox" id="chk">
+		<label for="chk" class="show-menu-btn">
+			<i class="fas fa-ellipsis-h"></i>
+		</label>
+							
+		<ul class="menu">
+			<a href="home.html">Home</a>
+			<a href="temperature_controller.html">온도 조절</a>
+			<a href="LED.html">LED</a>
+			<a href="doorLock.html">DoorLock Control</a>
+			<label for="chk" class="hide-menu-btn">
+				<i class="fas fa-times"></i>
+			</label>    
+		</ul>
+	</span>
+
+	<noscript>
+			<font color="white">
+			이 사이트의 기능을 모두 활성하기 위해서는 자바스크립트를 활성화 시킬 필요가 있습니다.
+			<a href="https://www.enable-javascript.com/ko/">브라우저에서 자바스크립트를 활성화하는 방법</a>을 참고하세요.
+			</font>
+	</noscript>
+
+	<div style='width:100%; height:100%; display:table;'>
+		<div class="table_outline">
+			<div style="display: inline;">
+
+
+					<div id="toggleButton1">
+						<input type="checkbox" id="ttR" disabled>
+						<div for="toggleButton" class="text" id="text1" on="현관 켜짐" off="현관 꺼짐"> </div>
+					</div>
+
+					<div id="toggleButton2">
+							<input type="checkbox" id="ttY" disabled>
+							<div for="toggleButton" class="text" id="text1" on="거실 켜짐" off="거실 꺼짐"> </div>
+						</div>
+						
+						<div id="toggleButton3">
+							<input type="checkbox" id="ttO" disabled>
+							<div for="toggleButton" class="text" id="text1" on="화장실 켜짐" off="화장실 꺼짐"> </div>
+						</div>
+						
+						<div id="toggleButton4">
+							<input type="checkbox" id="ttB" disabled>
+							<div for="toggleButton" class="text" id="text1" on="안방 켜짐" off="안방 꺼짐"> </div>
+						</div>
+					
+						<div id="toggleButton5">
+							<input type="checkbox" id="ttP" disabled>
+							<div for="toggleButton" class="text" id="text1" on="아들방 켜짐" off="아들방 꺼짐"> </div>
+						</div>
+						
+						<div id="toggleButton6">
+							<input type="checkbox" id="ttG" disabled>
+							<div for="toggleButton" class="text" id="text1" on="딸방 켜짐" off="딸방 꺼짐"> </div>
+						</div>
+					
+						<div id="toggleButton7">
+							<input type="checkbox" id="tt1" disabled>
+							<div for="toggleButton" class="text" id="text1" on="에어컨 켜짐" off="에어컨 꺼짐"> </div>
+						</div>
+					
+						<div id="toggleButton8">
+							<input type="checkbox" id="tt2" disabled>
+							<div for="toggleButton" class="text" id="text1" on="CCTV 켜짐" off="CCTV 꺼짐"> </div>
+						</div>
+
+		
+					</div>
+		
+		
+		</div>
+	</div>
+	</body>
+	<script type="text/javascript">
+
+		var WebSocket_Buffer=new Uint8Array(2);
+		var isPageMove=false;
+		$(document).ready(function() {
+			if ( (navigator.userAgent.toLowerCase().search( "edge/" ) > -1 ||
+					/*IE*/(navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (navigator.userAgent.toLowerCase().indexOf("msie") != -1)))
+
+			alert("이 페이지는 WebKit 표준을 지원하는 Browser로 사용을 권장합니다.\n\n(WebKit 표준을 지원하는 Browser는 Chrome, 네이버 웨일브라우저, Firefox등이 있습니다.)");
+
+			if(!isWebSocketConnected)
+			{
+				WebSocket_Connect();
+			}
+
+			if(isWebSocketConnected)
+			{
+				alert("Connected...");
+			}
+					
+		});
+
+			var WAS_PORTNUM="8080";
+			var WebSocket_URL= "ws://192.168.1.5:"+WAS_PORTNUM;//"ws://anuICE.iptime.org:"+WAS_PORTNUM;
+			var ws;
+            var isWebSocketConnected=false; // 페이지를 벗어날때, WebSocket종료시 엣지브라우저에서 'WebSocket Error'가 일어나는 것을 해결하기 위한 데이터
+            var isWindowUnload=false;
+            var isToldError_when_occured=false;
+            window.onbeforeunload=function(e){
+                isWindowUnload=true;
+          		isPageMove=true;
+                ws.close();
+                //return '페이지를 나가시겠습니까?';
+            };
+
+            function WebSocket_Connect()
+            {
+                ws=new WebSocket(WebSocket_URL);
+                ws.onopen = WebSocket_onOpen;
+                ws.onmessage = Websocket_onMessage;
+                ws.onclose = WebSocket_onClose;
+                ws.onerror = WebSocket_onError;
+                isToldError_when_occured=false;
+            }
+
+            function WebSocket_onOpen(e)
+            {
+                //txtRecv.append( "connected<br>" );
+                isWebSocketConnected=true;
+                //alert("connected");
+				
+				if(sessionStorage.getItem("isFirstSessionConnected") != "Yes")
+				{
+					alert("보드와 연결되었습니다.");
+					sessionStorage.setItem("isFirstSessionConnected","Yes");
+				}
+            }
+
+            var reader = new FileReader();
+            reader.addEventListener("loadend", function(e) {
+				// if the server sent binary array. (function : Websocket_onMessage(e))
+				var recvBuf=new Uint8Array(e.srcElement.result);
+
+				switch(recvBuf[0]){
+				case 13: // DIP
+
+					WebSocket_Buffer[1]=recvBuf[1];
+
+					if(recvBuf[1] & 0x01)
+						$("#ttR").prop("checked", true);
+					else
+						$("#ttR").prop("checked", false);
+
+					if(recvBuf[1] & 0x02)
+						$("#ttY").prop("checked", true);
+					else
+						$("#ttY").prop("checked", false);
+
+					if(recvBuf[1] & 0x04)
+						$("#ttO").prop("checked", true);
+					else
+						$("#ttO").prop("checked", false);
+
+					if(recvBuf[1] & 0x08)
+						$("#ttB").prop("checked", true);
+					else
+						$("#ttB").prop("checked", false);
+
+					if(recvBuf[1] & 0x10)
+						$("#ttP").prop("checked", true);
+					else
+						$("#ttP").prop("checked", false);
+
+					if(recvBuf[1] & 0x20)
+						$("#ttG").prop("checked", true);
+					else
+						$("#ttG").prop("checked", false);
+
+					if(recvBuf[1] & 0x40)
+						$("#tt1").prop("checked", true);
+					else
+						$("#tt1").prop("checked", false);
+
+					if(recvBuf[1] & 0x80)
+						$("#tt2").prop("checked", true);
+					else
+						$("#tt2").prop("checked", false);
+					break;
+				/*case 2: // ?
+
+					break;*/
+				}
+            });
+
+            function Websocket_onMessage(e)
+            {
+                if(e.data instanceof Blob)
+                    reader.readAsArrayBuffer(e.data);
+                else
+                {
+					// if the server sent string(message).
+					alert(e.data);
+				}
+            }
+
+            function WebSocket_onClose(e)
+            {
+                isWebSocketConnected=false;
+                //alert("closed");
+				$("#ttR").prop("checked", false);
+				$("#ttY").prop("checked", false);
+				$("#ttO").prop("checked", false);
+				$("#ttB").prop("checked", false);
+				$("#ttP").prop("checked", false);
+				$("#ttG").prop("checked", false);
+				$("#tt1").prop("checked", false);
+				$("#tt2").prop("checked", false);
+
+				
+				if(!isPageMove)
+				  alert("임베디드 보드와 연결이 끊어졌습니다.\n컴퓨터와 임베디드 보드의 인터넷 연결을 확인하세요.")
+            }
+
+            function WebSocket_onError(e)
+            {
+                if(!isWebSocketConnected && !isToldError_when_occured)
+                {
+                    
+					if(!isPageMove)
+						alert("임베디드 보드와 연결할 수 없습니다.\n컴퓨터와 임베디드 보드의 인터넷 연결을 확인하세요.");
+                    isToldError_when_occured=true;
+                }
+                isWebSocketConnected=false;
+            }
+
+	</script>
+</html>
