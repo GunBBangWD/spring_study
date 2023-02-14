@@ -2,7 +2,7 @@ package study10_4;
 
 public class BookShelfRun {
 	public static void main(String[] args) {
-		BookShelf b = new BookShelf();
+		BookShelf b = new BookShelf(); //좌
 		b.enQueue("수학의 정석");
 		//b.enQueue("수학의 정석2");
 		b.deQueue();

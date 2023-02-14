@@ -12,8 +12,8 @@ class NormalClass{
 }
 public class ClassMain {
 	public static void main(String[] args) {
-		NormalClass nor = new NormalClass();
-		System.out.println(nor.sum(10));
+		NormalClass nor = new NormalClass(); //NormalClass 클래스를 통해 만든 객체
+		System.out.println(nor.sum(10)); // nor 객체의 sum 메소드 인자 10 = 40출력됨
 		
 		AbstractClass abs = new AbstractClass() {
 			int c=30;
