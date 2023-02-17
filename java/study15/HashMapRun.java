@@ -43,10 +43,12 @@ public class HashMapRun {
 		//개수
 		System.out.println(hmap.size());
 		//조회
+		System.out.println("--------조회-----");
 		System.out.println(hmap.containsKey(4));
 		System.out.println(hmap.containsKey(7));
 		System.out.println(hmap.containsValue("김구"));
 		System.out.println(hmap.containsValue("임꺽정"));
+		System.out.println("----------------");
 		//삭제
 		System.out.println(hmap.remove(4));
 		System.out.println(hmap.remove(2, "홍길동"));//value값을 확인

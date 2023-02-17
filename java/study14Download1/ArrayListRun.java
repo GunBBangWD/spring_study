@@ -23,7 +23,7 @@ public class ArrayListRun {
 		//요소 삭제
 		System.out.println(alist.remove(2));
 		System.out.println(alist);
-		System.out.println(alist.remove("태종"));
+		System.out.println(alist.remove("태종")); //값이 같아야 삭제해줌
 		System.out.println(alist);
 		//요소 수정
 		alist.set(2, "태일");
@@ -31,8 +31,8 @@ public class ArrayListRun {
 		//요소의 개수
 		System.out.println(alist.size());
 		//요소의 검색
-		System.out.println(alist.contains("승진"));
-		System.out.println(alist.indexOf("소정"));
+		System.out.println(alist.contains("승진")); //해당 값을 확인하여 true false 반환
+		System.out.println(alist.indexOf("소정")); // 해당 값이 확인되면 index 반환
 		//반복
 		for(int i=0;i<alist.size();i++) {
 			System.out.print(alist.get(i));
@@ -41,7 +41,12 @@ public class ArrayListRun {
 		for(String str:alist) {
 			System.out.print(str);
 		}
-		System.out.println();
+		System.out.println("------------------------------------");
+
+		//for문에서 이터레이터
+//		for(Iterator<String> iter = alist.iterator();iter.hasNext();){
+//			System.out.print(iter.next());
+//		}
 		Iterator<String> iter = alist.iterator();
 		while(iter.hasNext()) {
 			System.out.print(iter.next());
@@ -59,11 +64,12 @@ public class ArrayListRun {
 		alist.add("지민");
 		alist.add("정기");
 		System.out.println(alist);
-		Collections.sort(alist);
+		Collections.sort(alist); // 오른차순으로 정렬
 		System.out.println(alist);
-		Collections.sort(alist,Collections.reverseOrder());
+		Collections.sort(alist,Collections.reverseOrder()); // 내림차순으로 정렬
 		System.out.println(alist);
-		
+
+		// 초기화와 동시에 값 넣기 주의 int[] 형처럼 primitive타입의 경우 반복문이나 Stream을 통해 하나씩 넣어야함
 		ArrayList<String> alist2 =
 			new ArrayList<>(
 				Arrays.asList("예진","민성","현우","시우","지민","정기"));

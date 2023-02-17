@@ -20,6 +20,7 @@ public class ArrayListPrac {
         for (String str : a1) {
             System.out.println(str);
         }
+
         System.out.println("------------");
         // Iterator
         Iterator<String> itr = a1.iterator();

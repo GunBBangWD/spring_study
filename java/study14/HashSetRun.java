@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 public class HashSetRun {
+
     public static void main(String[] args) {
         HashSet<String> hs = new HashSet<>();
         hs.add("홍길동");

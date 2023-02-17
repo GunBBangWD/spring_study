@@ -26,29 +26,30 @@ public class TreeSetRun {
 			tset2.add(i);
 		}
 		System.out.println(tset2);
-		
-		System.out.println(tset2.first());
-		System.out.println(tset2.last());
-		System.out.println(tset2.lower(51));
+		System.out.println("--------------------");
+		System.out.println(tset2.first()); //첫번째 값
+		System.out.println(tset2.last()); //마지막 값
+		System.out.println(tset2.lower(51)); //인덱스의
 		System.out.println(tset2.higher(51));
 		System.out.println(tset2.floor(17));
 		System.out.println(tset2.floor(18));
 		System.out.println(tset2.ceiling(25));
 		System.out.println(tset2.ceiling(24));
 		System.out.println(tset2.size());
-		System.out.println(tset2.pollFirst());
-		System.out.println(tset2.pollLast());
+		System.out.println(tset2.pollFirst()); // 첫번째 반환하면서 삭제
+		System.out.println(tset2.pollLast()); // 마지막 반환하면서 삭제
 		System.out.println(tset2);
-		
-		
-		System.out.println(tset2.headSet(18));//default:false
+		System.out.println("----------------------");
+
+		// 범위 출력
+		System.out.println(tset2.headSet(18));//default:false   // 첫번째부터 인자 까지 반환 headSet의 default = false
 		System.out.println(tset2.headSet(18,true));
-		System.out.println(tset2.tailSet(84));//default:true
+		System.out.println(tset2.tailSet(84));//default:true  // 마지막부터 인자 까지 반환 tailSet의 default = true
 		System.out.println(tset2.tailSet(84,false));
 		System.out.println(tset2.subSet(42, 54));
 		System.out.println(
 				tset2.subSet(42,false,54,true));
-		
+		System.out.println("----------------------");
 		TreeSet<String> animalTSet = new TreeSet<>(
 			Arrays.asList("Dog","Cat","Tiger",
 					"Lion","Elephant","Zebra"));
@@ -57,13 +58,8 @@ public class TreeSetRun {
 		System.out.println(sset);
 		System.out.println(nset);
 		System.out.println(nset.descendingSet());
-		Iterator<String> iter = nset.descendingIterator();
-		while(iter.hasNext()) {
-			System.out.println(iter.next());
-		}
-		System.out.println(tset1.remove("apple"));
-		System.out.println(tset1);
-		
+
+		//반복 접근
 		Iterator<Integer> itr2 = tset2.iterator();
 		while(itr2.hasNext()) {
 			System.out.printf("%d ",itr2.next());

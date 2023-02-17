@@ -13,6 +13,7 @@ public class HashSetRun {
         hset1.addAll(Arrays.asList("이식이", "삼식이", "사식이", "오식이"));
         hset2.addAll(hset1);
         //반복
+        
         Iterator<String> itr = hset2.iterator();
         while (itr.hasNext()) {
             System.out.println(itr.next());
