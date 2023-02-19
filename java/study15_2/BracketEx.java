@@ -9,8 +9,14 @@ public class BracketEx {
         Scanner scan = new Scanner(System.in);
         String input =scan.next();
         System.out.println(isCorrect(input));
+        System.out.println();
+
+
+
 
     }
+
+
 
     public static boolean isCorrect(String input) {
         Stack<Character> stack = new Stack<>();

@@ -35,9 +35,12 @@ public class Member1 implements Comparable<Member1> {
 
     @Override
     public int compareTo(Member1 mem) {
-        return this.memberId.compareTo(mem.getMemberId());
+       // return this.memberId.compareTo(mem.getMemberId());
        //return this.name.compareTo(mem.getName());
        // return this.age.compareTo(-1*mem.getAge());
+        if(this.memberId > mem.memberId) return 1;
+        else if(this.memberId == mem.memberId) return 0;
+        else return -1;
 
     }
 }

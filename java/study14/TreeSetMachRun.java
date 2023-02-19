@@ -12,12 +12,12 @@ public class TreeSetMachRun {
         System.out.println(tset1);
 
         CompareMemberTreeSet1 cts = new CompareMemberTreeSet1();
+        Member1 song = new Member1(103, "구준표", 18);
+        cts.addMember(song);
         Member1 lee = new Member1(101, "이순신", 32);
         cts.addMember(lee);
         Member1 koo = new Member1(101, "송시열", 32);
         cts.addMember(koo);
-        Member1 song = new Member1(103, "구준표", 18);
-        cts.addMember(song);
         cts.showAll();
 
     }
