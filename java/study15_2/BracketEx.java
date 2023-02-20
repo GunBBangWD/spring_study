@@ -11,9 +11,6 @@ public class BracketEx {
         System.out.println(isCorrect(input));
         System.out.println();
 
-
-
-
     }
 
 
