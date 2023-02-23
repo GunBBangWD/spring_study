@@ -18,6 +18,7 @@ public class FunctionalInterfaceLamdaRun {
             return 100;
         };
         ixoo=()->100; //참조형태 되는지
+
         System.out.println(ixoo.abMethod2());
 
         //리턴 없고 인자만 있는 람다식

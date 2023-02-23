@@ -23,5 +23,6 @@ public class CustomExceptionRun {
         s.sayNickname("바보");
         s.sayNickname("말미잘");
 
+
     }
 }
