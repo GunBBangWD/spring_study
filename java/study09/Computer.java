@@ -5,7 +5,7 @@ public abstract class Computer {
 		System.out.println("computer");
 	}
 	public void display() {};
-	//public void test(); //실행문 or abstract
+	//public void study20.test(); //실행문 or abstract
 	public abstract void typing(); //추상메서드
 	
 	public void trunOn() {

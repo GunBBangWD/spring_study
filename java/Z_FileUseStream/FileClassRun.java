@@ -1,4 +1,4 @@
-package study17;
+package Z_FileUseStream;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,6 +35,8 @@ public class FileClassRun {
         File dir2 = new File(path + "\\temp");
         System.out.println(dir2.mkdir());
 
+
+        //디렉토리 내부 파일들을 파일클래스 배열에 넣어서 처리
         File[] files = dir.listFiles();
         for (File file7 : files) {
             System.out.println(file7.getName() + " " + (file7.isFile() ? ">파일" : "디렉토리"));

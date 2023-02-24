@@ -12,6 +12,9 @@ public class TetrisGB extends JFrame {
     int hgt=0;
     int wid=100;
     TetrisThread th;
+    boolean limit = false;
+    TetrisPanel TP = new TetrisPanel();
+    JDialog JD = new JDialog();
     int curX[]= new int[4], curY[] = new int [4]; // 블록들의 좌표 저장
     TetrisGB(){
         setTitle("테트리스");
@@ -41,19 +44,18 @@ public class TetrisGB extends JFrame {
         setSize(530,520);
         setVisible(true);
 
-        Dimension frameSize = this.getSize();
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        setLocation((screenSize.width - frameSize.width)/2, (screenSize.height - frameSize.height)/2);
-        //JD.setLocation((screenSize.width - frameSize.width)/2 + 220, (screenSize.height - frameSize.height)/2 +220);
+        //화면 중앙정렬
+        {
+            Dimension frameSize = this.getSize();
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            setLocation((screenSize.width - frameSize.width) / 2, (screenSize.height - frameSize.height) / 2);
+            //JD.setLocation((screenSize.width - frameSize.width)/2 + 220, (screenSize.height - frameSize.height)/2 +220);
+        }
 
         TP.requestFocus(true);
-        //th.start();
+        th.start();
 
     }
-
-    boolean limit = false;
-    TetrisPanel TP = new TetrisPanel();
-    JDialog JD = new JDialog();
 
     class TetrisPanel extends JPanel {
         public void paintComponent(Graphics g){
@@ -61,36 +63,25 @@ public class TetrisGB extends JFrame {
             int cnt = 0 , cnt2 = 0;
             TP.requestFocus(true);
             super.paintComponent(g);
-
-
-//            lbl2.setLocation(353,120);
-//            TP.add(lbl2);
-//
-//            lbl.setLocation(360,145);
-//            TP.add(lbl);
-//            lbl.setText(Integer.toString(score*100));
-
             g.setColor(Color.ORANGE); // 새로 떨어지는 블럭,미리보기  블럭 색깔
-//            // 다음 나올 도형 출력
-            blockLookAhead(g);
+            // 다음 나올 도형 출력
+            nextBlock_Draw(g);
 //            // 벽이 천장에 닿으면 게임 오버
 //            gameOverCheck();
 //            // 한 행이 모두 블록으로 채워진 경우 블록들 제거(채워지지않은 경우 블록 떨어지도록)
 //            removeBlock(cnt, cnt2, g);
 //            // 블록이 벽에 착지하면 블록->벽으로 변환(떨어지는 블록 초기화)
 //            blockToWall();
-//            // 벽들을 생성
+            // 벽들을 생성
             makeBlock(g);
-//            // 테두리 생성
+            // 테두리 생성
             makeBorder(g);
-            blockDown(g);
+            blockLocationSaveDraw(g);
 //            if(End == 1){
 //                random2 = (int)(Math.random()*7);
 //                End = 0;
 //            }
 
-            TP.requestFocus(true);
-           // th.start();
         }
 
 
@@ -104,7 +95,7 @@ public class TetrisGB extends JFrame {
                 }
             }
         }
-        public void blockDown(Graphics g){
+        public void blockLocationSaveDraw(Graphics g){
             int cnt = 0;
             for(int j = 0; j<4 ;j++){
                 for(int k = 0; k<4;k++){
@@ -124,10 +115,10 @@ public class TetrisGB extends JFrame {
             g.draw3DRect(15, 445, 270, 5,true); // 바닥
            // g.draw3DRect(15, 65, 270, 5, true); // 천장
         }
-        public void blockLookAhead(Graphics g){
+        public void nextBlock_Draw(Graphics g){
             for(int a = 0; a<4 ;a++){
                 for(int b = 0; b<4;b++){
-                    if(blocks[3][0][a][b] == 1){
+                    if(blocks[4][1][a][b] == 1){
                         g.fill3DRect(b*20+120, a*20, 20, 20, true);
                     }
                 }
@@ -153,10 +144,6 @@ public class TetrisGB extends JFrame {
                 TP.repaint();
             }
         }
-        void down(){
-            hgt +=blocksize;
-            TP.repaint();
-        }
         // 왼쪽 벽에 충돌하면 못움직이도록
         public int collision_LEFT(){
             for(int i=0; i<4; i++){
@@ -165,19 +152,16 @@ public class TetrisGB extends JFrame {
             }
             return 0; // 충돌하지 않으면 0 반환
         }
-
-
     }
 
     class TetrisThread extends Thread{
-        TetrisGB.TetrisPanel TP = new TetrisGB.TetrisPanel();
+        TetrisPanel TP = new TetrisPanel();
         public void run(){
             while(true){
                 try{
                     sleep(700);
                     if(limit == false){ // limit이 false일 경우에만 작동. true가 되면 테트리스 작동중지
-                    hgt +=blocksize;
-                    TP.repaint();}
+                    TP.moveDown();}
                 }catch(InterruptedException e){
                     return;
                 }

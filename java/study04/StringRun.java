@@ -85,9 +85,9 @@ public class StringRun {
 		System.out.println(Arrays.toString(token));
 		//StringTokenizer class
 		//기본
-		//StringTokenizer stk = new StringTokenizer(test);
+		//StringTokenizer stk = new StringTokenizer(study20.test);
 		//구분자를 포함 제외 
-		//StringTokenizer stk = new StringTokenizer(test,"-");
+		//StringTokenizer stk = new StringTokenizer(study20.test,"-");
 		StringTokenizer stk = new StringTokenizer(test,"-",true);
 		System.out.println(stk.countTokens());
 		while(stk.hasMoreTokens()) {

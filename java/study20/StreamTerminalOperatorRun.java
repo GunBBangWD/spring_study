@@ -8,7 +8,6 @@ public class StreamTerminalOperatorRun {
     public static void main(String[] args) {
         //최종연산들
         int[] arr = {1, 3, 5, 8, 9, 10};
-        //
         //count()
         long count = Arrays.stream(arr).count();
         System.out.println(count);
@@ -24,6 +23,7 @@ public class StreamTerminalOperatorRun {
         System.out.println("------------------");
         System.out.println(Arrays.stream(arr).sum());
         //reduce()
+        System.out.println("--------------리듀스 부분----------------");
         Arrays.stream(arr).reduce((x,y)->Integer.sum(x,y)).ifPresent(x-> System.out.println(x));
         System.out.println(Arrays.stream(arr).reduce(20,Integer::sum));
         Arrays.stream(arr).reduce((x,y)->x-y).ifPresent(x-> System.out.println(x));
@@ -50,6 +50,24 @@ public class StreamTerminalOperatorRun {
         String[] sarr = {"apple", "orange", "lemon", "banana"};
         System.out.println(Arrays.stream(sarr).collect(Collectors.joining()));
         System.out.println(Arrays.stream(sarr).collect(Collectors.joining(",","{","}")));
+
+        List<Integer> nums = Arrays.asList(1, 2, 5, 6, 87, 2);
+        Double ave = nums.stream().collect(Collectors.averagingDouble(num->num));
+        Integer sum2 = nums.stream().collect(Collectors.summingInt(num->num));
+        System.out.println(ave);
+        System.out.println(sum2);
+
+        Stream<Integer> stream = Stream.of(25,50,75,100,125,150);
+        Map<Boolean, List<Integer>> m = stream.collect(Collectors.partitioningBy(a -> a == 50));
+        System.out.println(m);
+
+
+        Stream<Integer> stream2 = Stream.of(25,50,75,100,125,150);
+        Map<Boolean, List<Integer>> m2 = stream2.collect(Collectors.groupingBy(a -> a > 50));
+        System.out.println(m2);
+        List<String> list2 = Stream.of("test1","test2").collect(Collectors.collectingAndThen(Collectors.toList(),Collections::<String>unmodifiableList));
+        System.out.println(list2);
+
 
 
 

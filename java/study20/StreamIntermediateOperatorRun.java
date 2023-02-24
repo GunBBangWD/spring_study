@@ -3,6 +3,7 @@ package study20;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -19,22 +20,25 @@ public class StreamIntermediateOperatorRun {
         //map()
         Stream.of("html", "css", "java", "ajax").map(str -> str.length()).forEach(e -> System.out.print(e + " "));
         System.out.println();
-        //flatMap() 쪼개진 스트림배열을 반환해야함
+        //flatMap() 쪼개진 스트림배열을 반환되는걸 배열로 가정하고 처리
         String[] arr = {"i study html","you love css","java like"};
         Arrays.stream(arr).flatMap(s->Stream.of(s.split(" "))).forEach(s-> System.out.print(s+"   1    "));
         System.out.println();
         //sorted()
         IntStream.of(14, 10, 21, 35, 27).sorted().forEach(e -> System.out.print(e + " "));
+        IntStream is=IntStream.of(14, 10, 21, 35, 27).sorted();
         System.out.println();
         List<String> lang = Arrays.asList("html", "css", "java", "ajax");
         //IntStream.of(14, 10, 21, 35, 27).sorted(Comparator.reverseOrder()).forEach(e -> System.out.print(e + " "));
-
         lang.stream().sorted(Comparator.reverseOrder()).forEach(e -> System.out.print(e + " "));
         System.out.println();
+        System.out.println("-----------------");
         //concat()
         Stream<String> st4 = Stream.of("html", "css", "java", "ajax");
         Stream<String> st5 =Stream.of("html2", "css2", "java2", "ajax2");
-        Stream.concat(st4, st5).forEach(e-> System.out.print(e+"   "));
+        Stream<Integer> it4 = Stream.of(1, 2, 3, 4, 6, 7).sorted(Comparator.reverseOrder());
+        Stream<Integer> it5 = Stream.of(1, 2, 3, 4, 6, 7);
+        Stream.concat(it4, it5).forEach(e-> System.out.print(e+"   "));
         System.out.println();
         //peek()  기본출력 내림차순 출력 오름차순 출력
         lang.stream().peek(System.out::println).sorted(Comparator.reverseOrder())
@@ -44,6 +48,15 @@ public class StreamIntermediateOperatorRun {
         //skip() limit()
         int sum = IntStream.of(1,42,12,51,67).skip(0).peek(System.out::println).sum();
         System.out.println(sum);
+
+
+        for(int i=0;i<10;i++){
+            System.out.println("!");
+        }
+
+        String[] starr = {"htmel", "css", "java", "aeejax"};
+
+        int[] leng = Arrays.stream(starr).mapToInt(s->s.length()).toArray();
 
 
     }

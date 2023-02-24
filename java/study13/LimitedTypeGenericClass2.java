@@ -6,7 +6,7 @@ interface TestInterface{
 class SubClass implements TestInterface{
     @Override
     public void test() {
-        System.out.println("subclass test() run");
+        System.out.println("subclass study20.test() run");
 
     }
 }
@@ -24,7 +24,7 @@ public class LimitedTypeGenericClass2 {
         nc.genericMethod(new TestInterface() {
             @Override
             public void test() {
-                System.out.println("subclass test() run");
+                System.out.println("subclass study20.test() run");
             }
         });
     }

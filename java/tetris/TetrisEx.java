@@ -629,7 +629,7 @@ class TetrisThread extends Thread{
     public void run(){
         while(true){
             try{
-                sleep(700);
+                sleep(2000);
                 if(limit == false) // limit이 false일 경우에만 작동. true가 되면 테트리스 작동중지
                     TP.down();
             }catch(InterruptedException e){
