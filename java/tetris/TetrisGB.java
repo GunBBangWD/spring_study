@@ -9,7 +9,7 @@ import java.awt.event.KeyEvent;
 
 public class TetrisGB extends JFrame {
     static int blocksize = 20;
-    int hgt=0;
+    int hgt=20;
     int wid=100;
     TetrisThread th;
     boolean limit = false;
@@ -53,7 +53,7 @@ public class TetrisGB extends JFrame {
         }
 
         TP.requestFocus(true);
-        th.start();
+        //th.start();
 
     }
 
@@ -71,12 +71,14 @@ public class TetrisGB extends JFrame {
 //            // 한 행이 모두 블록으로 채워진 경우 블록들 제거(채워지지않은 경우 블록 떨어지도록)
 //            removeBlock(cnt, cnt2, g);
 //            // 블록이 벽에 착지하면 블록->벽으로 변환(떨어지는 블록 초기화)
-//            blockToWall();
+            blockToWall();
             // 벽들을 생성
             makeBlock(g);
             // 테두리 생성
             makeBorder(g);
             blockLocationSaveDraw(g);
+
+
 //            if(End == 1){
 //                random2 = (int)(Math.random()*7);
 //                End = 0;
@@ -85,6 +87,15 @@ public class TetrisGB extends JFrame {
         }
 
 
+        public void blockToWall(){
+            for(int z = 0; z<4 ; z++)
+                if(gameboard[curY[z]+1][curX[z]] == 1)
+                    for (int j= 0; j<4;j++){
+                        gameboard[curY[j]][curX[j]] = 1;
+                        wid =100;
+                        hgt =0;
+                    }
+        }
         public void makeBlock(Graphics g){
             g.setColor(Color.GRAY);
             for(int y=0; y<19;y++){
