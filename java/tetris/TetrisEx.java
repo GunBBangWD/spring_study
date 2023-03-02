@@ -278,10 +278,10 @@ public class TetrisEx extends JFrame {
 
             th = new TetrisThread();
 
-            // JDialog
-//            JD.setTitle("점수");
-//            JD.setSize(250,190);
-//            JD.setLayout(new FlowLayout(FlowLayout.CENTER, 150, 30));
+//           JDialog
+            JD.setTitle("점수");
+            JD.setSize(250,190);
+            JD.setLayout(new FlowLayout(FlowLayout.CENTER, 150, 30));
 
 
 
@@ -384,11 +384,12 @@ class TetrisPanel extends JPanel{
         for(int x=1;x<12;x++)
             if(gameboard[2][x]==1){
                 limit = true;
-                lbl.setLocation(50,50);
+//                lbl.setLocation(50,50);
                 btn.setLocation(50,30);
                 JD.add(lbl);
                 JD.add(btn);
                 JD.setVisible(true);
+                break;
             }
     }
 

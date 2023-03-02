@@ -16,6 +16,7 @@ public class TetrisGB extends JFrame {
     int random = 3 , random2 = new Random().nextInt(7);
     int End = 0;
     int score = 0;
+    JButton btn = new JButton("재도전");
     JLabel lbl = new JLabel();
     JLabel lbl2 = new JLabel();
 
@@ -24,6 +25,9 @@ public class TetrisGB extends JFrame {
     boolean limit = false;
     TetrisPanel TP = new TetrisPanel();
     JDialog JD = new JDialog();
+
+
+
     int curX[]= new int[4], curY[] = new int [4]; // 블록들의 좌표 저장
     TetrisGB(){
         setTitle("테트리스");
@@ -31,13 +35,18 @@ public class TetrisGB extends JFrame {
         setLayout(new BorderLayout());
         TP.setSize(720,900);
         add(TP);
+
+
+        JD.setTitle("점수");
+        JD.setSize(250,190);
+        JD.setLayout(new FlowLayout(FlowLayout.CENTER, 150, 30));
+
         lbl.setFont(new Font("arial",Font.PLAIN,15));
         lbl2.setText("점  수");
         lbl2.setFont(new Font("나눔고딕",Font.PLAIN,15));
         th = new TetrisThread();
 
         TP.addKeyListener(new KeyAdapter(){
-
             public void keyPressed(KeyEvent e){
                 int keyCode = e.getKeyCode();
                  if(keyCode == KeyEvent.VK_UP)
@@ -50,19 +59,28 @@ public class TetrisGB extends JFrame {
                     TP.moveRight();
             }
         });
+        btn.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                limit = false;
+                for(int y=0; y<19;y++)
+                    for(int x=1; x<12; x++)
+                        gameboard[y][x] =0 ;
+                score =0;
+                wid =100; hgt = 0;
+            }
+        });
 
 
         TP.setBackground(Color.WHITE);
         setSize(530,520);
         setVisible(true);
 
-
         //화면 중앙정렬
         {
             Dimension frameSize = this.getSize();
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             setLocation((screenSize.width - frameSize.width) / 2, (screenSize.height - frameSize.height) / 2);
-            //JD.setLocation((screenSize.width - frameSize.width)/2 + 220, (screenSize.height - frameSize.height)/2 +220);
+            JD.setLocation((screenSize.width - frameSize.width)/2 + 220, (screenSize.height - frameSize.height)/2 +220);
         }
 
         TP.requestFocus(true);
@@ -85,7 +103,7 @@ public class TetrisGB extends JFrame {
             g.setColor(Color.ORANGE); // 새로 떨어지는 블럭,미리보기  블럭 색깔
             // 다음 나올 도형 출력
             // 벽이 천장에 닿으면 ,게임 오버
-//            gameOverCheck();
+            gameOverCheck();
 //            // 한 행이 모두 블록으로 채워진 경우 블록들 제거(채워지지않은 경우 블록 떨어지도록)
             blockLocationSave(g);
             blockToWall(g);
@@ -175,6 +193,18 @@ public class TetrisGB extends JFrame {
                     }
                 }
             }
+        }
+        public void gameOverCheck(){
+            for(int x=1;x<12;x++)
+                if(gameboard[2][x]==1){
+                    limit = true;
+//                lbl.setLocation(50,50);
+                    btn.setLocation(50,30);
+                    JD.add(lbl);
+                    JD.add(btn);
+                    JD.setVisible(true);
+                    break;
+                }
         }
 
         public void rotationCheck() {
