@@ -298,7 +298,6 @@ public class TetrisEx extends JFrame {
                     if(keyCode == KeyEvent.VK_UP)
                     TP.moveUp();
                     if(keyCode == KeyEvent.VK_DOWN){
-                        System.out.println("down");
                     TP.moveDown();}
                     if(keyCode == KeyEvent.VK_LEFT)
                     TP.moveLeft();
@@ -385,13 +384,10 @@ class TetrisPanel extends JPanel{
         for(int x=1;x<12;x++)
             if(gameboard[2][x]==1){
                 limit = true;
-
-
-                //lbl.setLocation(50,50);
+                lbl.setLocation(50,50);
+                btn.setLocation(50,30);
                 JD.add(lbl);
                 JD.add(btn);
-
-                //btn.setLocation(50,30);
                 JD.setVisible(true);
             }
     }
