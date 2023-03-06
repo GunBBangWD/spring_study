@@ -14,23 +14,23 @@ public class FileCopyTest {
              FileOutputStream fos = new FileOutputStream(dest);
              InputStreamReader isr = new InputStreamReader(fis);
              OutputStreamWriter osw = new OutputStreamWriter(fos);
-          //   BufferedReader br = new BufferedReader(isr)
+             BufferedReader br = new BufferedReader(isr)
         ) {
-//            String line=null;
-//            while ((line = br.readLine()) != null) {
-//                osw.write(num+" "+line+"\n");
-//                num++;
-//            }
-            while((data=isr.read())!=-1){
-                char c=(char) data;
-                if (num == 1) {
-                    osw.write(String.valueOf(num++));
-                }
-                osw.write(c);
-                if (c == '\n') {
-                    osw.write(num+++" ");
-                }
+            String line=null;
+            while ((line = br.readLine()) != null) {
+                osw.write(num+" "+line+"\n");
+                num++;
             }
+//            while((data=isr.read())!=-1){
+//                char c=(char) data;
+//                if (num == 1) {
+//                    osw.write(String.valueOf(num++));
+//                }
+//                osw.write(c);
+//                if (c == '\n') {
+//                    osw.write(num+++" ");
+//                }
+//            }
 
 
 

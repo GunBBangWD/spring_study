@@ -1,0 +1,10 @@
+1st      100      ABC      
+2st      0      ABC
+3st      -      ---      
+4st      -      ---      
+5st      -      ---      
+6st      -      ---      
+7st      -      ---      
+8st      -      ---      
+9st      -      ---      
+NoRank      -      ---   

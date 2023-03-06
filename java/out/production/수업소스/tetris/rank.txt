@@ -1,0 +1,10 @@
+1st      700      VZB      
+2st      200      ZZZ
+3st      100      ABC      
+4st      100      BBC      
+5st      100      ZZZ
+6st      0      ABC      
+7st      0      YBC
+8st      -      ---      
+9st      -      ---      
+NoRank      -      ---      

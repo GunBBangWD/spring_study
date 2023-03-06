@@ -6,9 +6,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.Random;
+import java.io.*;
+import java.util.*;
+import java.util.List;
 
 public class TetrisGB extends JFrame {
+    Dimension frameSize = this.getSize();
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
     static int blocksize = 20;
     int hgt=20;
     int wid=100;
@@ -23,28 +28,82 @@ public class TetrisGB extends JFrame {
 
     TetrisThread th;
     boolean limit = false;
+    boolean saveCheck = true;
+    boolean saveCheck2 = true;
+    boolean saveCheck3 = true;
     TetrisPanel TP = new TetrisPanel();
     JDialog JD = new JDialog();
+    JDialog RankList = new JDialog();
 
+    int ABC = 0;
+    JLabel lb1 = new JLabel("A");
+    JLabel lb2 = new JLabel("B");
+    JLabel lb3 = new JLabel("C");
+    JLabel lb4 = new JLabel("▼");
+    JLabel[] jLabel = new JLabel[11];
+
+
+    int lb4Wid=75;
+
+    GridBagConstraints c=new GridBagConstraints();
 
 
     int curX[]= new int[4], curY[] = new int [4]; // 블록들의 좌표 저장
+
+    public void layout(Component obj, int x, int y,int width, int height)
+    {
+        c.gridx=x; // 시작위치 x
+        c.gridy=y; // 시작위치 y
+        c.gridwidth=width; // 컨테이너 너비
+        c.gridheight=height;  // 컨테이너 높이
+        add(obj,c);
+    };
+
     TetrisGB(){
+
         setTitle("테트리스");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         TP.setSize(720,900);
         add(TP);
 
+//        JD.setTitle("점수");
+//        JD.setSize(300,450);
+//        JD.setLayout(new GridBagLayout());
 
-        JD.setTitle("점수");
+        JD.setTitle("점수기록");
         JD.setSize(250,190);
-        JD.setLayout(new FlowLayout(FlowLayout.CENTER, 150, 30));
+        JD.setLayout(null);
+
+        RankList.setTitle("랭킹목록");
+        RankList.setSize(530,520);
+        RankList.setLayout(null);
+
+
+        TP.setBackground(Color.WHITE);
+        setSize(530,520);
+        setVisible(true);
+
 
         lbl.setFont(new Font("arial",Font.PLAIN,15));
         lbl2.setText("점  수");
         lbl2.setFont(new Font("나눔고딕",Font.PLAIN,15));
         th = new TetrisThread();
+
+        //화면 중앙정렬
+        {
+//            setLocation((screenSize.width - frameSize.width) / 2, (screenSize.height - frameSize.height) / 2);
+//            JD.setLocation((screenSize.width - frameSize.width)/2 + 220, (screenSize.height - frameSize.height)/2 +220);
+//            RankList.setLocation((screenSize.width - frameSize.width) / 2, (screenSize.height - frameSize.height) / 2);
+
+            setLocation((screenSize.width - frameSize.width) / 2/2, (screenSize.height - frameSize.height) / 2/2);
+            JD.setLocation((screenSize.width - frameSize.width)/2/2+220, (screenSize.height - frameSize.height)/2/2+220);
+            RankList.setLocation((screenSize.width - frameSize.width) / 2/2, (screenSize.height - frameSize.height) / 2/2);
+
+        }
+
+
+
 
         TP.addKeyListener(new KeyAdapter(){
             public void keyPressed(KeyEvent e){
@@ -59,6 +118,48 @@ public class TetrisGB extends JFrame {
                     TP.moveRight();
             }
         });
+
+        JD.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+                int keyCode = e.getKeyCode();
+                if(keyCode == KeyEvent.VK_UP) {
+                    if(ABC == 0){
+                        if(lb1.getText().charAt(0)==90)lb1.setText("A");
+                        else lb1.setText(String.valueOf((char)(lb1.getText().charAt(0)+1)));
+                    }else if(ABC == 1){
+                        if(lb2.getText().charAt(0)==90)lb2.setText("A");
+                        else lb2.setText(String.valueOf((char)(lb2.getText().charAt(0)+1)));
+                    }else{
+                        if(lb3.getText().charAt(0)==90)lb3.setText("A");
+                        else lb3.setText(String.valueOf((char)(lb3.getText().charAt(0)+1)));
+                    }
+                }
+                if(keyCode == KeyEvent.VK_DOWN){
+                    if(ABC == 0){
+                        if(lb1.getText().charAt(0)==65)lb1.setText("Z");
+                        else lb1.setText(String.valueOf((char)(lb1.getText().charAt(0)-1)));
+                    }else if(ABC == 1){
+                        if(lb2.getText().charAt(0)==65)lb2.setText("Z");
+                        else lb2.setText(String.valueOf((char)(lb2.getText().charAt(0)-1)));
+                    }else{
+                        if(lb3.getText().charAt(0)==65)lb3.setText("Z");
+                        else lb3.setText(String.valueOf((char)(lb3.getText().charAt(0)-1)));
+                    }
+                }
+                if(keyCode == KeyEvent.VK_ENTER){
+                    ABC++;
+                    lb4Wid+=25;
+                    lb4.setBounds(lb4Wid,75,20,20);
+                    if(ABC==3){
+                        JD.setVisible(false);
+                        makeRankList();
+                    }
+                }
+
+            }
+        });
+
+
         btn.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 limit = false;
@@ -67,21 +168,23 @@ public class TetrisGB extends JFrame {
                         gameboard[y][x] =0 ;
                 score =0;
                 wid =100; hgt = 0;
+                TP.setVisible(true);
+                RankList.setVisible(false);
+                RankList.removeAll();
+
+                RankList = new JDialog();
+                RankList.setTitle("랭킹목록");
+                RankList.setSize(530,520);
+                RankList.setLayout(null);
+                jLabel = new JLabel[11];
+                RankList.setLocation((screenSize.width - frameSize.width) / 2/2, (screenSize.height - frameSize.height) / 2/2);
+                setVisible(true);
+
             }
         });
 
 
-        TP.setBackground(Color.WHITE);
-        setSize(530,520);
-        setVisible(true);
 
-        //화면 중앙정렬
-        {
-            Dimension frameSize = this.getSize();
-            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            setLocation((screenSize.width - frameSize.width) / 2, (screenSize.height - frameSize.height) / 2);
-            JD.setLocation((screenSize.width - frameSize.width)/2 + 220, (screenSize.height - frameSize.height)/2 +220);
-        }
 
         TP.requestFocus(true);
         th.start();
@@ -101,29 +204,35 @@ public class TetrisGB extends JFrame {
             lbl.setText(Integer.toString(score*100));
 
             g.setColor(Color.ORANGE); // 새로 떨어지는 블럭,미리보기  블럭 색깔
-            // 다음 나올 도형 출력
+
+
+
             // 벽이 천장에 닿으면 ,게임 오버
             gameOverCheck();
-//            // 한 행이 모두 블록으로 채워진 경우 블록들 제거(채워지지않은 경우 블록 떨어지도록)
+
+
+
+            //블록 좌표 생성, 저장
             blockLocationSave(g);
+            // 블록이 바닥에 닿으면
             blockToWall(g);
+            // 블록 한줄이 완성되면 지워줌
             removeBlock(g);
-            if(End == 1){
-                random2 = new Random().nextInt(7);
-                End = 0;
-            }
+            // 다음 블록 미리 그려줌
             nextBlock_Draw(g);
+            // 블록 상태 gui로 그려줌
             blockLocationDraw(g);
+            // 맵의 벽돌 상태 gui로 그려줌
             makeBlock(g);
+            // 맵 틀 gui로 그려줌
             makeBorder(g);
 
-            // 블록이 벽에 착지하면 블록->벽으로 변환(떨어지는 블록 초기화)
 
-            // 벽들을 생성
-
-            // 테두리 생성
 
         }
+
+
+
         public void removeBlock(Graphics g){
             int cnt=0;
             for(int y =0;y<19;y++){
@@ -142,12 +251,18 @@ public class TetrisGB extends JFrame {
                 }
                 cnt = 0 ;
             }
+
+            if(End == 1){
+                random2 = new Random().nextInt(7);
+                End = 0;
+            }
         }
 
         public void blockToWall(Graphics g){
             for(int z = 0; z<4 ; z++)
                 if(gameboard[curY[z]][curX[z]] == 1){
                     for (int j= 0; j<4;j++){
+                        if(limit==false)
                         gameboard[curY[j]-1][curX[j]] = 1;
                         hgt-=blocksize;
                     }
@@ -198,11 +313,33 @@ public class TetrisGB extends JFrame {
             for(int x=1;x<12;x++)
                 if(gameboard[2][x]==1){
                     limit = true;
-//                lbl.setLocation(50,50);
-                    btn.setLocation(50,30);
+                   // btn.setLocation(50,30);
+//                    String s = "점수 : "+lbl.getText();
+
+                    lbl.setText("점수 : "+lbl.getText());
+                    lbl.setFont(new Font("Serif", Font.CENTER_BASELINE,20));
+                    lbl.setBounds(75,0,100,50);
+
+                    lb1.setBounds(75,100,20,20);
+                    lb1.setFont(new Font("Serif", Font.CENTER_BASELINE,20));
+                    lb2.setBounds(100,100,20,20);
+                    lb2.setFont(new Font("Serif", Font.CENTER_BASELINE,20));
+                    lb3.setBounds(125,100,20,20);
+                    lb3.setFont(new Font("Serif", Font.CENTER_BASELINE,20));
+                    lb4.setBounds(lb4Wid,75,20,20);
+                    lb4.setFont(new Font("Serif", Font.CENTER_BASELINE,20));
+
+
                     JD.add(lbl);
-                    JD.add(btn);
+                    JD.add(lb1);
+                    JD.add(lb2);
+                    JD.add(lb3);
+                    JD.add(lb4);
+
+//                    JD.add(btn);
                     JD.setVisible(true);
+                    TP.setVisible(false);
+                    JD.requestFocus();
                     break;
                 }
         }
@@ -280,6 +417,99 @@ public class TetrisGB extends JFrame {
             }
             return 0; // 충돌하지 않으면 0 반환
         }
+    }
+
+    public void makeRankList(){
+        String RankFile = "tetris/rank.txt";
+        saveCheck=true;
+        saveCheck2 = true;
+        saveCheck3 = true;
+        List<String[]> RankFileList = new ArrayList<>();
+        try (
+                BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(RankFile)));
+        ) {
+            String line=null;
+            while ((line = br.readLine()) != null) {
+                RankFileList.add(line.split("      "));
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        int x=20,y=20,ListWid=450,ListHgt=50;
+        String rankstr = "";
+        String schScorce="";
+        String schName="";
+        for (int i=0;i<RankFileList.size();i++) {
+            for(int j=0;j<3;j++){
+                System.out.print(RankFileList.get(i)[j]+" ");
+                rankstr+=RankFileList.get(i)[j]+"      ";
+            }
+
+            if(rankstr.split("      ")[1].equals("-")){
+                if(saveCheck){
+                    saveCheck=false;
+                    if(!saveCheck2){
+                        saveCheck2=true;
+                        jLabel[i] = new JLabel(rankstr.split("      ")[0]+"      "+schScorce+"      "+schName);
+                        schScorce = "";
+                        schName = "";
+                    }else {
+                        jLabel[i] = new JLabel(rankstr.split("      ")[0]+"      "+Integer.toString(score*100)+"      "+lb1.getText()+lb2.getText()+lb3.getText());
+                    }
+                }else {
+                    jLabel[i]=new JLabel(rankstr);
+                }
+            }else {
+                if(saveCheck){
+                    if(score*100 <= Integer.parseInt(rankstr.split("      ")[1])){
+                        if(i==9)jLabel[i] = new JLabel(rankstr.split("      ")[0]+"      "+Integer.toString(score*100)+"      "+lb1.getText()+lb2.getText()+lb3.getText());
+                        else {
+                            jLabel[i] = new JLabel(rankstr);
+                        }
+                    } else{
+                        jLabel[i] = new JLabel(rankstr.split("      ")[0]+"      "+Integer.toString(score*100)+"      "+lb1.getText()+lb2.getText()+lb3.getText());
+                        schScorce=rankstr.split("      ")[1];
+                        schName=rankstr.split("      ")[2];
+                        score = Integer.parseInt(schScorce)/100;
+                        saveCheck2=false;
+                    }
+                }else{
+                    jLabel[i]=new JLabel(rankstr);
+                }
+            }
+
+            jLabel[i].setBounds(x,y,ListWid,ListHgt);
+            jLabel[i].setFont(new Font("Serif", Font.CENTER_BASELINE,20));
+            RankList.add(jLabel[i]);
+            rankstr="";
+            System.out.println();
+            y+=28;
+        }
+
+        try (
+                OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(RankFile));
+                BufferedWriter bw = new BufferedWriter(osw)
+        ) {
+            String line = null;
+            for (int i=0;i<10;i++){
+                bw.write(jLabel[i].getText() + "\n");
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        btn.setBounds(150,400,200,30);
+        RankList.add(btn);
+        RankList.repaint();
+        RankList.setVisible(true);
+        setVisible(false);
+
+
+        ABC=0;
+        lb4Wid=75;
+        lb1.setText("A");
+        lb2.setText("B");
+        lb3.setText("C");
     }
 
     class TetrisThread extends Thread{
