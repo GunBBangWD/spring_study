@@ -18,7 +18,8 @@ public class TetrisGB extends JFrame {
     int hgt=20;
     int wid=100;
     int rotation = 0;
-    int random = 3 , random2 = new Random().nextInt(7);
+    int random = 3;
+    int random2 = new Random().nextInt(7);
     int End = 0;
     int score = 0;
     JButton btn = new JButton("재도전");
@@ -188,6 +189,7 @@ public class TetrisGB extends JFrame {
 
         TP.requestFocus(true);
         th.start();
+        random2 = new Random().nextInt(7);
     }
 
 

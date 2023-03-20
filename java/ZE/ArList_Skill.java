@@ -17,10 +17,14 @@ public class ArList_Skill {
         //요소 읽기
         System.out.println(alist.get(1));
         //요소 삭제
-        System.out.println(alist.remove(2));
         System.out.println(alist);
+        System.out.println(alist.remove(0));
+        System.out.println(alist.remove(0));
+        System.out.println(alist);
+        System.out.println("--------------------------");
         System.out.println(alist.remove("태종")); //값이 같아야 삭제해줌
         System.out.println(alist);
+
         //요소 수정
         alist.set(2, "태일");
         System.out.println(alist);
