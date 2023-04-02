@@ -11,6 +11,8 @@ public class TrMap_Skill {
         for (int i = 2; i <= 40; i+=2) {
             tmap.put(i, (i / 2) + "번 아이");
         }
+        System.out.println(tmap.put(99,"1233"));
+
         System.out.println(tmap.toString());//저장은 트리구조로 되어있으나 출력할때는 순서대로처럼 느껴짐
 
         System.out.println(tmap.firstKey());  //첫 번째 키값 반환
