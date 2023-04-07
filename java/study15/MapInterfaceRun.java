@@ -48,4 +48,8 @@ public class MapInterfaceRun {
     }
 }
 
+class AlertFunc{
+    public static void
+}
+
 
