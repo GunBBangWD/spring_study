@@ -25,6 +25,14 @@ dependency = 의존관계
 
 
 
+DL
+의존성을 갖는 빈 검색
+실제로는 DI를 사용
+
+1. 클라이언트 -> 서블릿컨테이너(web.xml 내용),웹 어플 -> 생성 웹어플리케이션컨텍스트(디스패처->포조빈)
+
+
+
 
 
 객체지향 설계 5가지 원칙 
@@ -62,16 +70,38 @@ why? 인터페이스 객체가 변경하기위해 코드를 알아야해서
 
 
 
-AFAJNxkd-WX7oyyOA
-U90U870k-M7sHcRPh
-2xaZJG8R-2d6TPxWN
-6qm1uAm3-UjSU4zqG
-4MlP8fTI-DeuBcZY2
-uq5MWQuT-Ye1IqPiG
-H1YhRmvS-sDH0TUIR
-AavVg5fr-SmOEEEgb
-72ssIR6H-56cz4Dwn
-SauMtLX5-FqrwQW1G
+문제: 도시, 건물, 사람을 관리하는 프로그램을 작성하세요.
+
+요구 사항:
+
+1. Person 클래스를 만들고, 이름(name)과 나이(age) 속성을 추가하세요.
+2. Building 클래스를 만들고, 건물 이름(buildingName)과 주소(address) 속성을 추가하세요. 또한, 해당 건물에 거주하는 사람들의 목록(residents)을 ArrayList로 관리하세요.
+3. City 클래스를 만들고, 도시 이름(cityName) 속성을 추가하세요. 또한, 도시 내의 건물 목록(buildings)을 ArrayList로 관리하세요.
+4. City 클래스에 다음 메서드를 추가하세요:
+- addBuilding(Building building): 도시에 건물을 추가합니다.
+- printCityInfo(): 도시의 정보와 건물 목록, 각 건물의 주소와 거주자 목록을 출력합니다.
+5. Building 클래스에 다음 메서드를 추가하세요:
+- addResident(Person person): 건물에 거주자를 추가합니다.
+- printBuildingInfo(): 건물의 정보와 거주자 목록을 출력합니다.
+6. main 메서드에서 다음 작업을 수행하세요:
+- 사람들을 만들고, 건물에 추가합니다.
+- 건물들을 만들고, 도시에 추가합니다.
+- 도시의 정보를 출력합니다.
+
+구글링 키워드
+Java 클래스 생성
+Java 객체 생성
+Java 메서드 작성
+Java 상속 (필요한 경우)
+Java ArrayList 사용법
+Java ArrayList에 객체 추가
+Java for-each loop
+Java getter와 setter
+Java 클래스 변수 및 인스턴스 변수
+Java 생성자 작성
+Java public, private, protected 접근 제어자
+Java 인터페이스 (필요한 경우)
+
 
 
 
