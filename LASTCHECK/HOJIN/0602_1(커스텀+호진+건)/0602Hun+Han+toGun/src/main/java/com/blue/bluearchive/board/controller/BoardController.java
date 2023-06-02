@@ -2,12 +2,10 @@ package com.blue.bluearchive.board.controller;
 
 import com.blue.bluearchive.board.dto.*;
 import com.blue.bluearchive.board.entity.Category;
-import com.blue.bluearchive.board.entity.Comment;
 import com.blue.bluearchive.board.service.BoardService;
 import com.blue.bluearchive.board.service.CategoryService;
 import com.blue.bluearchive.board.service.CommentService;
 import com.blue.bluearchive.board.service.CommentsCommentService;
-import com.blue.bluearchive.member.dto.MemberDto;
 import com.blue.bluearchive.member.entity.Member;
 import com.blue.bluearchive.member.repository.MemberRepository;
 import org.springframework.security.core.Authentication;
@@ -27,11 +25,8 @@ import java.util.Map;
 public class BoardController {
     private final BoardService boardService;
     private final CategoryService categoryService;
-
     private final CommentService commentService;
-
     private final CommentsCommentService commentsCommentService;
-
     private final MemberRepository memberRepository;
 
     public BoardController(BoardService boardService, CategoryService categoryService, CommentService commentService, CommentsCommentService commentsCommentService, MemberRepository memberRepository) {
@@ -96,7 +91,7 @@ public class BoardController {
         String email = authentication.getName();
         Member member = memberRepository.findByEmail(email);
         model.addAttribute("member",member);
-        return "board/boardWrite2";
+        return "board/boardWrite";
     }
     @PostMapping(value = "/boardWrite/new")
     public String boardNew(@Valid BoardFormDto boardFormDto, BindingResult bindingResult, Model model){

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<body>
+  <!-- 메인 부분 -->
+  <div class="container-fluid " style="margin-top: 40px;" layout:fragment="content">
+    <div class="row gx-0">
+      <div class="row">
+        <div class="col-md-4 text-center h3">
+          댓글 작성기록
+        </div>
+        
+      </div>
+
+      <div class="col-10">
+        <div class="container">
+
+          <div class="row">
+            <div class="col-12 text-center">
+              <br><br><br>
+              먼가 넣을수도 있는 공간 또는 디자인을 위한 공백
+              <br><br><br>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-2  text-center">
+              <select class="form-select form-select" aria-label=".form-select example">
+                <option value="1" selected>전체</option>
+                <option value="3">식단</option>
+                <option value="4">운동기록</option>
+                <option value="5">운동장소</option>
+                <option value="6">몸매변화</option>
+              </select>
+            </div>
+          </div>
+
+
+          <br>
+
+          <div class="row">
+            <div class="col-2 text-center p-4 h5">
+                번호
+            </div>
+            <div class="col-6 text-center p-4 h5">
+                제목(댓글수)
+            </div>
+            <div class="col-2 text-center p-4 h5">
+                작성일
+            </div>
+            <div class="col-2 text-center p-4 h5">
+                삭제
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-2 text-center p-4 h5">
+                번호
+            </div>
+            <div class="col-6 text-center p-4 h5">
+                <a href="view.html">제목(댓글수)</a>
+            </div>
+            <div class="col-2 text-center p-4 h5">
+                작성일
+            </div>
+            <div class="col-2 text-center p-4 h5">
+                삭제
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-2 text-center p-4 h5">
+                번호
+            </div>
+            <div class="col-6 text-center p-4 h5">
+                <a href="view.html">제목(댓글수)</a>
+            </div>
+            <div class="col-2 text-center p-4 h5">
+                작성일
+            </div>
+            <div class="col-2 text-center p-4 h5">
+                삭제
+            </div>
+          </div>
+
+
+          <br>
+          <div class="row">
+            <div class="col-md-12  text-center h5">
+              <a href="#"><<</a> &nbsp&nbsp&nbsp<a href="#"><</a>&nbsp&nbsp&nbsp
+                      <a href="#">1</a>&nbsp <a href="#">2</a>&nbsp <a href="#">3</a>&nbsp <a href="#">4</a>&nbsp <a
+                        href="#">5</a>
+                      <a href="#">></a>&nbsp&nbsp&nbsp <a href="#">>></a>
+            </div>
+          </div>
+
+          <br>
+
+
+
+        </div>
+      </div>
+
+
+      <!-- 사이드메뉴 부분 -->
+      <div th:replace="/fragments/user_menu"></div>
+
+    </div>
+  </div>
+</body>
+
+</html>

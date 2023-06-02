@@ -15,6 +15,7 @@ import java.util.List;
 @Getter
 @Builder
 public class CustomUserDetails implements UserDetails {
+    private final long idx;
     private final String id;
     private final String name;
     private final String nickName;

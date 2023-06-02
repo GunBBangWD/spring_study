@@ -17,6 +17,7 @@
     메인 content 양식
     <div sec:authorize="isAuthenticated()">
         <h2>User Details principal객체, authorities(권한)객체로 출력</h2>
+        <p>idx: <span th:text="${#authentication.principal.idx}"></span></p>
         <p>id: <span th:text="${#authentication.principal.id}"></span></p>
         <p>name: <span th:text="${#authentication.principal.username}"></span></p>
         <p>Nickname: <span th:text="${#authentication.principal.nickName}"></span></p>

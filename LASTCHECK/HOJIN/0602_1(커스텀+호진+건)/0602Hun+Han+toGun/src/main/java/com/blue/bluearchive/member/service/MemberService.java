@@ -36,6 +36,7 @@ public class MemberService implements UserDetailsService {
             throw new UsernameNotFoundException(email);
         }
         return CustomUserDetails.builder()
+                .idx(member.getIdx())
                 .id(member.getId())
                 .name(member.getName())
                 .password(member.getPassword())
