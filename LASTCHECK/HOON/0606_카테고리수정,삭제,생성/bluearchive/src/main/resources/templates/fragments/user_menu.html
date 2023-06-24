@@ -1,0 +1,48 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<style>
+  .side_menu {
+    padding: 10px;
+    background-color: #f0f0f0;
+    margin-bottom: 10px;
+  }
+
+  .side_menu a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+  }
+
+  .side_menu a:hover {
+    color: #ff5500;
+  }
+</style>
+<div class="col-2">
+  <div class="container">
+
+    <div class="row">
+      <div class="col-md-12 text-center side_menu">
+        <a th:href="@{/user/mypage}">마이페이지</a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 text-center side_menu">
+        <a th:href="@{/user/informationChange}">정보변경</a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 text-center side_menu">
+        <a th:href="@{/user/writingRecord}">게시물 작성기록</a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 text-center side_menu">
+        <a th:href="@{/user/commentRecord}">댓글 작성기록</a>
+      </div>
+    </div>
+
+
+  </div>
+</div>

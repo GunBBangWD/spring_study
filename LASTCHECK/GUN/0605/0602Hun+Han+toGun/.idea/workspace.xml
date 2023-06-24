@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="74d002f3-accb-43a6-8ef6-f7e8d4d6790d" name="변경" comment="변경">
+      <change beforePath="$PROJECT_DIR$/../../../HOJIN/0602_1(커스텀+호진+건)/0602Hun+Han+toGun/src/main/java/com/blue/bluearchive/config/AuditorAwareImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../HOJIN/0602_1(커스텀+호진+건)/0602Hun+Han+toGun/src/main/java/com/blue/bluearchive/config/AuditorAwareImpl.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectId" id="2QUyE8FRmrZ2q5EQ4MIQGwHSnfC" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/hgh04/Documents/spring_study2/LASTCHECK/GUN/0605/0606건이댓글UI적용/pom.xml",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "문제",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "advanced.settings",
+    "spring.configuration.checksum": "7c5f683ad3e248b9aaf6792f7468968a",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\hgh04\Documents\spring_study2\LASTCHECK\HOON\bluearchive\bluearchive\src\main\resources\static\img" />
+      <recent name="C:\Users\hgh04\Documents\spring_study2\LASTCHECK\HOON\bluearchive\bluearchive\src\main\resources\static\css" />
+      <recent name="C:\Users\hgh04\Documents\spring_study2\LASTCHECK\HOON\bluearchive\bluearchive\src\main\resources\static" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\hgh04\Documents\spring_study2\LASTCHECK\GUN\0605\0602Hun+Han+toGun\src\main\resources\templates\board" />
+      <recent name="C:\Users\hgh04\Documents\spring_study2\LASTCHECK\HOON\bluearchive\bluearchive\src\main\resources\templates" />
+      <recent name="C:\Users\hgh04\Documents\spring_study2\LASTCHECK\HOON\bluearchive\bluearchive\src\main\resources\static" />
+    </key>
+  </component>
+  <component name="RunManager" selected="애플리케이션.BluearchiveApplication">
+    <configuration name="BluearchiveApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.blue.bluearchive.BluearchiveApplication" />
+      <module name="bluearchive" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.blue.bluearchive.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BluearchiveApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="bluearchive" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.blue.bluearchive.BluearchiveApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="애플리케이션.BluearchiveApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <changelist id="74d002f3-accb-43a6-8ef6-f7e8d4d6790d" name="변경" comment="" />
+      <created>1685422341188</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1685422341188</updated>
+      <workItem from="1685644296153" duration="726000" />
+      <workItem from="1685684183033" duration="153000" />
+      <workItem from="1685684355318" duration="570000" />
+      <workItem from="1685685436029" duration="778000" />
+      <workItem from="1685688097405" duration="10221000" />
+      <workItem from="1685862372410" duration="6710000" />
+      <workItem from="1685871331820" duration="1194000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

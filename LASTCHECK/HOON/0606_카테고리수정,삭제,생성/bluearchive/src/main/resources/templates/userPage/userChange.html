@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<body>
+<!-- 메인 부분 -->
+<div class="container-fluid " style="margin-top: 40px;" layout:fragment="content">
+  <div class="row gx-0">
+    <div class="row">
+      <div class="col-md-4 text-center h3">
+        정보변경
+      </div>
+
+    </div>
+
+    <div class="col-10">
+      <div class="container">
+
+        <div class="row">
+          <div class="col-12 text-center">
+            <br><br><br>
+            먼가 넣을수도 있는 공간 또는 디자인을 위한 공백
+            <br><br><br>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="offset-5 col-2 text-center p-4 h5">
+            정보 변경
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+
+
+
+    <!-- 사이드메뉴 부분 -->
+    <div th:replace="/fragments/user_menu"></div>
+
+    </div>
+</div>
+</body>
+
+</html>

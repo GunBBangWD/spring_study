@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <meta charset="UTF-8">
+  <title>블루아카이브_list</title>
+  <!-- 현재 페이지에 적용할 부트스트랩, 제이쿼리링크 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <!--  현재 페이지에 필요한 최소한의 css-->
+  <link rel="stylesheet" href="boot.css">
+
+
+  <!--  날짜표시를 위한 자바스크립트 함수 (오늘이면 시간 표시, 오늘 아니면 년-월-일 표시 -->
+  <script th:inline="javascript">
+  // 시간 출력 함수
+    function formatDateTime(time) {
+        var date = new Date(time);
+        var clientOffset = new Date().getTimezoneOffset(); // 클라이언트의 시간대 오프셋 (분 단위)
+        var timeOffset = clientOffset * 60 * 1000; // 시간대 오프셋 차이 (밀리초 단위)
+        date.setTime(date.getTime() + timeOffset); // 서버 시간에 오프셋을 더합니다.
+
+        var today = new Date();
+        today.setHours(0, 0, 0, 0); // 오늘 날짜를 가져온 후, 시간을 00:00:00:000으로 설정
+
+        var year = date.getFullYear();
+        var month = ('0' + (date.getMonth() + 1)).slice(-2);
+        var day = ('0' + date.getDate()).slice(-2);
+        var hours = ('0' + date.getHours()).slice(-2);
+        var minutes = ('0' + date.getMinutes()).slice(-2);
+
+        // 등록 날짜가 오늘이면 시간만 표시, 그렇지 않으면 날짜를 표시
+        if (date.setHours(0, 0, 0, 0) == today.getTime()) {
+            return hours + ':' + minutes;
+        } else {
+            return year + '-' + month + '-' + day;
+        }
+    }
+
+
+    //대댓글 작성부분 나오게 해주는 토글버튼
+     $(document).ready(function() {
+        $(document).on('click', '.toggle-comment', function(event) {
+            event.preventDefault(); // prevent the default action
+            $(this).closest('.row').closest('.comment-section').next('.hidden-comment').toggle(); // toggle the visibility of the next hidden comment
+        });
+    });
+
+
+    $(document).ready(function() {
+    $('.edit-btn').click(function(event) {
+        event.preventDefault(); // prevent the default action
+
+        // Get the closest comment section.
+        const commentSection = $(this).closest('.comment-section');
+
+        // Find the comment content and form within the comment section.
+        const commentContentDiv = commentSection.find('.comment-content');
+        const formElement = commentSection.find('.comment-edit');
+
+        // Toggle the visibility of the comment content and form.
+        commentContentDiv.toggle();
+        formElement.toggle();
+        if ($(this).text() === '수정') {
+            $(this).text('취소');
+        } else {
+            $(this).text('수정');
+        }
+    });
+});
+
+
+//신고페이지 띄움
+$(document).ready(function() {
+  $('a.report-link').click(function(event) {
+    event.preventDefault(); // prevent the default action
+
+    // Calculate the position of the new window
+    var left = screen.availLeft + 200; // 왼쪽으로 200px 이동
+    var top = screen.availTop + 200; // 위쪽으로 200px 이동
+
+    // Open a new small-sized window at the calculated position
+    window.open($(this).attr('href'), '_blank', 'width=400,height=500,left=' + left + ',top=' + top);
+  });
+});
+  </script>
+
+</head>
+
+
+
+
+<div layout:fragment="content" class="content" style="">
+  <!--  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">-->
+
+  <!-- 메인 부분 -->
+  <div class="container-fluid " style="margin-top: 40px;">
+    <div class="row gx-0">
+      <div class="row">
+        <div class="col-4 text-center h3">
+          <a href="list.html">현재 카테고리이름 표시fefefe</a>
+        </div>
+      </div>
+
+      <div class="col-10">
+        <div class="container">
+
+          <div class="row">
+            <div class="col-12 text-center">
+              <br><br><br>
+              먼가 넣을수도 있는 공간 또는 디자인을 위한 공백
+              <br><br><br>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="h3 col-12 p-4" th:text="${board.boardTitle}">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-1 p-4 text-center" th:text="${board.boardCreatedBy}">
+            </div>
+            <div class="col-1 p-4 text-center" th:text="${board.boardCount}">
+            </div>
+            <div class="col-1 offset-7 p-4 text-center">
+              <script th:inline="javascript">
+                  var time = /*[[${board.regTime}]]*/ '';
+                  document.write(formatDateTime(time));
+              </script>
+            </div>
+            <div class="col-1 p-4 text-center">
+              <a href="#">수정</a>
+            </div>
+            <div class="col-1 p-4 text-center">
+              <a href="#">삭제</a>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="h3 col-12 p-2">
+              내용 부분
+            </div>
+            <pre class="col-12 p-4" style="min-height: 500px;" th:text="${board.boardContent}">
+            </pre>
+          </div>
+
+          <div class="row" style="height: 100px;">
+            <div class="col-1 offset-3 p-4 text-center"><a href="#">좋아요</a></div>
+            <div class="col-1 p-4 text-center" th:text="${board.boardLikeCount}"></div>
+            <div class="col-1 offset-1 p-4 text-center"><a href="#">싫어요</a></div>
+            <div class="col-1 p-4 text-center" th:text="${board.boardHateCount}"></div>
+          </div>
+
+          <div class="row">
+            <div class="offset-10 col-2 p-2 text-center">
+              <a th:href="'/report/board/' + ${board.boardId}" th:text="'신고+' + ${board.boardReportsCount}" class="report-link"></a>
+            </div>
+          </div>
+
+
+
+          <div class="row">
+            <div class="h3 col-12 p-2">
+              댓글 부분
+            </div>
+          </div>
+
+
+          <div th:each="comment:${commentList}">
+  <div class="comment-section">
+            <div class="row" >
+              <div class="col-1 p-1">
+                작성자 프로필
+              </div>
+              <div class="col-1 p-1" th:text="작성자+${comment.createdBy}">
+              </div>
+              <div class="col-1 p-1 text-center">
+                <script th:inline="javascript">
+                  var time = /*[[${comment.regTime}]]*/ '';
+                  document.write(formatDateTime(time));
+              </script>
+              </div>
+              <div class="col-1 p-1 text-center">
+                <button class="edit-btn">수정</button>
+              </div>
+              <div class="col-1 p-1 text-center">
+                <form method="post" action="/comment/delete">
+                  <input type="hidden" name="boardId" th:value="${board.boardId}">
+                  <input type="hidden" name="commentId" th:value="${comment.commentId}">
+                  <button type="submit">삭제</button>
+                </form>
+              </div>
+              <div class="offset-2 col-1 p-1 text-center">
+                <a href="#">좋아요</a>
+              </div>
+              <div class="col-1 p-1 text-center" th:text="${comment.commentLikeCount}">
+              </div>
+              <div class="col-1 p-1 text-center">
+                <a href="#">싫어요</a>
+              </div>
+              <div class="col-1 p-1 text-center" th:text="${comment.commentHateCount}">
+              </div>
+              <div class="col-1 p-1 text-center">
+                <a href="#" th:text="'신고('+${comment.commentReportsCount}+')'"></a>
+              </div>
+            </div>
+
+            <div class="row comment-content">
+              <div class="col-12 p-4" th:text="${comment.commentContent}">
+                댓글 내용 1 <br><br>
+              </div>
+            </div>
+  <form role="form" method="post" action="/comment/edit" class="comment-edit" style="display:none">
+    <input type="hidden" name="boardId" th:value="${board.boardId}"/>
+    <input type="hidden" name="commentId" th:value="${comment.commentId}"/>
+    <div class="row">
+      <div class="col-10 p-4">
+        <textarea name="commentContent" class="form-control" rows="4" th:text="${comment.commentContent}"></textarea>
+      </div>
+      <div class="col-1 p-4">
+        <button type="submit" class="form-control">수정</button>
+      </div>
+    </div>
+  </form>
+            <div class="row">
+              <div class="col-12 ">
+                <a href="#" class="toggle-comment">대댓글 작성</a>
+              </div>
+            </div>
+  </div>
+
+
+
+
+            <div class="hidden-comment" style="display:none">
+              <form role="form" method="post" action="/commentsComment/new">
+                <input type="hidden" name="comment" th:value="${comment.commentId}"/>
+                <div class="row">
+                  <div class="offset-2 col-1 p-1" sec:authorize="isAuthenticated()">
+                    <span th:text="${#authentication.principal.nickName}"></span>
+                  </div>
+                  <div class="offset-2 col-1 p-1" sec:authorize="!isAuthenticated()" th:text="로그인해주세요">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="offset-2 col-9 p-4">
+                    <textarea name="commentsCommentContent" id="boardContent" class="form-control" rows="4" placeholder="대댓글작성부분"></textarea>
+                  </div>
+                  <div class="col-1 p-4">
+                    <button class="form-control">작성</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+
+            <div class="comment-section" th:each="commentsComment:${commentsCommentMap[comment.commentId]}">
+              <div class="row">
+                <div class="offset-2 col-1 p-1">
+                  작성자 프로필
+                </div>
+                <div class="col-1 p-1" th:text="'대댓글작성자='+${commentsComment.createdBy}">
+
+                </div>
+                <div class="col-1 p-1 text-center">
+                  <script th:inline="javascript">
+                  var time = /*[[${commentsComment.regTime}]]*/ '';
+                  document.write(formatDateTime(time));
+              </script>
+                </div>
+                <div class="col-1 p-1 text-center">
+                  <button class="edit-btn">수정</button>
+                </div>
+                <div class="col-1 p-1 text-center">
+                  <form method="post" action="/commentsComment/delete">
+                    <input type="hidden" name="boardId" th:value="${board.boardId}">
+                    <input type="hidden" name="commentsCommentId" th:value="${commentsComment.commentsCommentId}">
+                    <button type="submit">삭제</button>
+                  </form>
+                </div>
+                <div class="col-1 p-1 text-center">
+                  <a href="#">좋아요</a>
+                </div>
+                <div class="col-1 p-1 text-center" th:text="${commentsComment.commentsCommentLikeCount}">
+
+                </div>
+                <div class="col-1 p-1 text-center">
+                  <a href="#">싫어요</a>
+                </div>
+                <div class="col-1 p-1 text-center" th:text="${commentsComment.commentsCommentHateCount}">
+
+                </div>
+                <div class="col-1 p-1 text-center">
+                  <a href="#" th:text="'신고('+${commentsComment.commentsCommentHateCount}+')'"></a>
+                </div>
+              </div>
+
+              <div class="row comment-content">
+                <div class="offset-2 col-10 p-4" th:text="${commentsComment.commentsCommentContent}">
+                  대댓글 내용 1
+                </div>
+              </div>
+  <form role="form" method="post" action="/commentsComment/edit" class="comment-edit" style="display:none">
+    <input type="hidden" name="boardId" th:value="${board.boardId}"/>
+    <input type="hidden" name="commentsCommentId" th:value="${commentsComment.commentsCommentId}"/>
+    <div class="row">
+      <div class="offset-2 col-9 p-4">
+        <textarea name="commentsCommentContent" class="form-control" rows="4" th:text="${commentsComment.commentsCommentContent}"></textarea>
+      </div>
+      <div class="col-1 p-4">
+        <button type="submit" class="form-control">수정</button>
+      </div>
+    </div>
+  </form>
+            </div>
+
+
+
+          </div>
+
+          <!--          <div class="row">-->
+          <!--            <div class="col-md-12  text-center h5">-->
+          <!--              <a href="#"><img src="/img/left-arrow2.svg" style="width: 15px; height: 15px;"/></a> &nbsp&nbsp&nbsp-->
+          <!--              <a href="#"><img src="/img/left-arrow.svg" style="width: 15px; height: 15px;"/></a>&nbsp&nbsp&nbsp-->
+          <!--              <a href="#">1</a>&nbsp <a href="#">2</a>&nbsp <a href="#">3</a>&nbsp <a href="#">4</a>&nbsp <a-->
+          <!--                    href="#">5</a>&nbsp&nbsp&nbsp-->
+          <!--              <a href="#"><img src="/img/right-arrow.svg" style="width: 15px; height: 15px;"/></a>&nbsp&nbsp&nbsp-->
+          <!--              <a href="#"><img src="/img/right-arrow2.svg" style="width: 15px; height: 15px;"/></a>-->
+          <!--            </div>-->
+          <!--          </div>-->
+
+
+
+          <div class="row">
+            <div class="col-2 p-1" sec:authorize="isAuthenticated()">
+              <span th:text="'접속자 : '+${#authentication.principal.nickName}"></span>
+            </div>
+            <div class="col-2 p-1" sec:authorize="!isAuthenticated()" th:text="작성하시려면로그인해주세요">
+            </div>
+          </div>
+
+          <form role="form" method="post" action="/comment/new">
+            <input type="hidden" name="boardId" th:value="${board.boardId}"/>
+            <div class="row">
+              <div class="col-10 p-4">
+                <textarea name="commentContent" class="form-control" rows="4" placeholder="댓글작성부분"></textarea>
+              </div>
+              <div class="col-1 p-4">
+                <button type="submit" class="form-control">작성</button>
+              </div>
+            </div>
+          </form>
+
+
+          <div class="row" style="height: 100px;">
+            <br>
+            <div class="col-2 offset-5 p-4">
+              <a href="/board/all" class="btn btn-outline-secondary btn-lg">목록</a>
+            </div>
+          </div>
+
+
+
+
+        </div>
+      </div>
+
+
+
+
+
+      <!-- 사이드메뉴 부분 -->
+      <!-- 사이드메뉴 부분 -->
+      <script>
+          function submitForm(categoryId) {
+              var url = "/board/" + categoryId;
+              window.location.href = url;
+          }
+      </script>
+      <div class="col-2">
+        <div class="container-fluid" style="border: 1px solid black;">
+          <form method="get" action="/board/all">
+            <div class="row">
+              <div class="col-md-12 text-center side_menu">
+                <button type="submit">전체보기</button>
+              </div>
+              <div class="col-md-12 text-center side_menu"  th:each="category : ${categoryList}">
+                <button type="button" name="category" th:onclick="'submitForm(' + ${category.categoryId} + ')'">
+                  <span th:text="${category.categoryName}"></span>
+                </button>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div>
+
+
+
+
+
+
+    </div>
+  </div>
+
+</div>
+</div>
+
+
+
+</html>
