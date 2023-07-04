@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Blog Search Results</title>
+  <style>
+    .hidden {
+      display: none;
+    }
+
+    .button-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .pagination-buttons {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Center align the title links */
+    .result-row td {
+      text-align: center;
+    }
+
+  </style>
+  <script th:inline="javascript">
+    function showNextResults() {
+      var current = parseInt(document.getElementById('current-page').value);
+      var max = parseInt(document.getElementById('max-pages').value);
+
+      // Calculate the next range of results to display
+      var startIndex = current * 5;
+      var endIndex = (current + 1) * 5;
+
+      // Hide all rows
+      var rows = document.getElementsByClassName('result-row');
+      for (var i = 0; i < rows.length; i++) {
+        rows[i].classList.add('hidden');
+      }
+
+      // Show the next range of rows
+      for (var j = startIndex; j < endIndex; j++) {
+        if (j < rows.length) {
+          rows[j].classList.remove('hidden');
+        }
+      }
+
+      // Update the current page
+      document.getElementById('current-page').value = current + 1;
+
+      // Hide or show the previous/next buttons based on current page
+      if (current + 2 > max) {
+        document.getElementById('next-button').disabled = true;
+      }
+      document.getElementById('previous-button').disabled = false;
+    }
+
+    function showPreviousResults() {
+      var current = parseInt(document.getElementById('current-page').value);
+
+      // Calculate the previous range of results to display
+      var startIndex = (current - 2) * 5;
+      var endIndex = (current - 1) * 5;
+
+      // Hide all rows
+      var rows = document.getElementsByClassName('result-row');
+      for (var i = 0; i < rows.length; i++) {
+        rows[i].classList.add('hidden');
+      }
+
+      // Show the previous range of rows
+      for (var j = startIndex; j < endIndex; j++) {
+        if (j < rows.length) {
+          rows[j].classList.remove('hidden');
+        }
+      }
+
+      // Update the current page
+      document.getElementById('current-page').value = current - 1;
+
+      // Hide or show the previous/next buttons based on current page
+      if (current - 1 === 1) {
+        document.getElementById('previous-button').disabled = true;
+      }
+      document.getElementById('next-button').disabled = false;
+    }
+  </script>
+</head>
+<body>
+<h1>추천 블로그글</h1>
+<table>
+  <thead>
+  <tr>
+    <th>Title</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="result, iterStat : ${results}" th:if="${iterStat.index} &lt; 10" class="result-row">
+    <td>
+      <a th:href="${result.link}" target="_blank" th:text="${result.title}"></a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<input type="hidden" id="current-page" value="1" />
+<input type="hidden" id="max-pages" value="2" />
+
+
+<!-- 이전 버튼 -->
+<div class="pagination-buttons">
+  <div class="button-container">
+    <button id="previous-button" onclick="showPreviousResults()" disabled>이전</button>
+  </div>
+  <!-- 다음 버튼 -->
+  <div class="button-container">
+    <button id="next-button" onclick="showNextResults()">다음</button>
+  </div>
+</div>
+<script th:inline="javascript">
+    // 페이지 로딩 시 초기 버튼 상태 설정
+    window.onload = function() {
+      var max = parseInt(document.getElementById('max-pages').value);
+      if (max === 1) {
+        document.getElementById('next-button').disabled = true;
+      }
+    }
+</script>
+</body>
+</html>

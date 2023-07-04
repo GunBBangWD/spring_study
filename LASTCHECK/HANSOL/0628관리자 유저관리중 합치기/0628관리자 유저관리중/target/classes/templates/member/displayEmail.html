@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <title>이메일 찾기 결과</title>
+</head>
+<style>
+    .email{
+    min-height: 80vh;
+    position:relative;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    }
+    .img{
+    z-index: -9999;
+    position: absolute;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 120px;
+    top: -2%;
+    }
+
+    .but2{
+    position: absolute;
+    top:65%;
+    left:37%;
+    text-decoration: none;
+    color:#888;
+    }
+    .but3{
+    position: absolute;
+    top:65%;
+    left: 53%;
+    text-decoration: none;
+    color:#888;
+    }
+
+    .box{
+    width:500px;
+    height:350px;
+    line-height:230px;
+    background: white;
+    border: 1px solid #e4e4e4;
+    text-align:center;
+    }
+    .same{
+    font-size: 25px;
+    font-weight:20px;
+    }
+    .span1{
+    position: absolute;
+    top:65%;
+    left:48%;
+    color:#888;
+    }
+</style>
+<body>
+
+<div class="email">
+  <a href="/"> <img class="img" src="/img/덤벨.webp"></a>
+  <div class="box">
+<p>일치하는 이메일: <span class="same" th:text="${email}"></span></p>
+  </div>
+  <a class="but2" href="/member/find-password">비밀번호 찾기</a>
+  <span class="span1" style="padding: 0 10px;"> | </span>
+  <a class="but3" href="/member/login">로그인 화면으로</a>
+</div>
+</body>
+</html>

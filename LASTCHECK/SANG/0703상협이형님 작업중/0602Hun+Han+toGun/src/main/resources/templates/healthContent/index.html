@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Health Content Index</title>
+  <style>
+    /* Add CSS styling for horizontal layout */
+    .flex-container {
+      display: flex;
+      justify-content: space-between;
+    }
+    .flex-item {
+      flex-basis: 38%;
+    }
+    .hidden {
+      display: none;
+    }
+    .show-button {
+      cursor: pointer;
+      color: blue;
+      text-decoration: underline;
+    }
+  </style>
+  <script>
+    function showHiddenItems(targetClass) {
+      var hiddenItems = document.querySelectorAll('.' + targetClass + ' .hidden');
+      for (var i = 0; i < hiddenItems.length; i++) {
+        hiddenItems[i].classList.remove('hidden');
+      }
+      var showButton = document.getElementById('show-' + targetClass + '-button');
+      showButton.style.display = 'none';
+    }
+  </script>
+</head>
+<body>
+<div class="flex-container">
+  <div class="flex-item">
+    <h1>추천 블로그글</h1>
+    <ul>
+      <!-- Iterate over blog results -->
+      <li th:each="blogResult, iterStat : ${blogResults}" th:classappend="${iterStat.index >= 5} ? 'hidden' : ''">
+        <a th:href="${blogResult.link}">
+          <h2 th:text="${blogResult.title}"></h2>
+        </a>
+      </li>
+    </ul>
+    <div id="show-blog-item-button" class="show-button" onclick="showHiddenItems('blog-item')">더 보기</div>
+  </div>
+  <div class="flex-item">
+    <h1>추천 뉴스</h1>
+    <ul>
+      <!-- Iterate over news results -->
+      <li th:each="newsResult, iterStat : ${newsResults}" th:classappend="${iterStat.index >= 5} ? 'hidden' : ''">
+        <a th:href="${newsResult.link}">
+          <h2 th:text="${newsResult.title}"></h2>
+        </a>
+      </li>
+    </ul>
+    <div id="show-news-item-button" class="show-button" onclick="showHiddenItems('news-item')">더 보기</div>
+  </div>
+</div>
+</body>
+</html>

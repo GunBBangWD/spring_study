@@ -8,6 +8,7 @@ public class BluearchiveApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BluearchiveApplication.class, args);
+
 	}
 
 }

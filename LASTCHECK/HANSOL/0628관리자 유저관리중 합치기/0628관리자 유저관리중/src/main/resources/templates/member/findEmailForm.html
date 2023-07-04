@@ -1,0 +1,91 @@
+<!-- member/findEmailForm.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>이메일 찾기</title>
+</head>
+<style>
+    input[type="text"] {
+    width: 400px;
+    height:40px;
+    border: none;
+    }
+    .email{
+    min-height: 80vh;
+    position:relative;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    }
+    .text{
+    position: absolute;
+    top: 28%;
+    background-color: white;
+    text-align:center;
+    color:#03c75a;
+    z-index: 999999;
+    font-size: 20px;
+    }
+    .img{
+    position: absolute;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 70px;
+    top: -2%;
+    }
+
+    .name{
+    margin-bottom: 20px;
+    }
+
+    .form{
+    margin-top:15px;
+    }
+    .but{
+    margin-top:30px;
+    width:410px;
+    height:40px;
+    color: white;
+    background-color: #03c75a;
+    }
+     .link-button {
+        color:#888;
+        text-decoration: none;
+    }
+    .button-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+</style>
+<body>
+<div class="email">
+    <div class="text">
+        찾으시려는 이메일 사용자의<br>
+        이름과 휴대폰 번호를 입력해주세요.
+    </div>
+    <a href="/"> <img class="img" src="/img/덤벨.webp"></a>
+<form method="post" class="form" action="/member/find-email">
+    <div class="name">
+        <input style="background:#e4e4e4" type="text" id="name" name="name" placeholder="이름" required>
+    </div>
+    <div class="num">
+        <input style="background:#e4e4e4" type="text" id="phone" name="phone" placeholder="휴대폰 번호" required>
+    </div>
+    <button class="but" type="submit">조회</button>
+    <p class="button-container">
+        <a class="link-button" href="/member/find-password">비밀번호 찾기</a>
+        <span style="padding: 0 10px;"> | </span>
+        <a class="link-button" href="/member/login">로그인 화면으로</a>
+    </p>
+</form>
+</div>
+<p id="error-message" th:text="${error}" th:if="${error}"style="display:none"></p>
+</body>
+<script>
+    var errorMessage = document.getElementById("error-message").textContent;
+    if (errorMessage) {
+        alert(errorMessage);
+    }
+</script>
+</html>

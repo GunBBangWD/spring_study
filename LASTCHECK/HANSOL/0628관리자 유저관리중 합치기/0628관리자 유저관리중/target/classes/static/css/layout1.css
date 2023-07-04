@@ -1,0 +1,10 @@
+html{
+    min-height:100%;
+    margin:0;
+}
+.content{
+    min-height:70vh;
+    margin-bottom:100px;
+    margin-left:200px;
+    margin-right:200px;
+}

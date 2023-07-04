@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>이메일 인증</title>
+</head>
+<style>
+    input[type="text"] {
+    width: 400px;
+    height:40px;
+    border: none;
+    }
+    .password{
+    min-height: 80vh;
+    position:relative;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    }
+    .text{
+    position: absolute;
+    top: 28%;
+    background-color: white;
+    text-align:center;
+    color:#03c75a;
+    z-index: 999999;
+    font-size: 20px;
+    }
+    .img{
+    position: absolute;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 70px;
+    top: -2%;
+    }
+    .form{
+    margin-top:15px;
+    }
+    .but{
+    margin-top:30px;
+    width:410px;
+    height:40px;
+    color: white;
+    background-color: #03c75a;
+    }
+</style>
+<body>
+<div class="password">
+  <div class="text">
+    이메일로 발송된<br>
+    인증코드를 입력해주세요.
+  </div>
+
+  <a href="/"> <img class="img" src="/img/덤벨.webp"></a>
+<form method="post" action="/member/verify-code">
+  <input type="hidden" name="email" th:value="${email}">
+  <div class="email">
+    <input style="background:#e4e4e4" type="text" id="userInputCode" name="userInputCode" placeholder="인증 코드" required>
+  </div>
+  <input type="hidden" name="verificationCode" th:value="${verificationCode}">
+  <button class="but" type="submit">인증완료</button>
+  <p th:if="${error}" th:text="${error}" style="color: red;"></p>
+</form>
+</div>
+</body>
+</html>

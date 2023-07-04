@@ -1,0 +1,62 @@
+#slideShow {
+  position: relative;
+  width: 100%;
+  height: 400px; /* 이곳의 높이를 이미지 높이에 맞게 조절하세요 */
+  overflow: hidden;
+}
+
+.slides {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.slides li {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+.slides li img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.slides li.visible {
+  display: block;
+}
+
+.controller {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+}
+.controller span {
+  display: inline-block;
+  cursor: pointer;
+  padding: 10px;
+  font-size: 20px;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.5);
+  margin: 0 5px;
+  border-radius: 5px;
+}
+.controller span.prev {
+  position:absolute; /* 추가 */
+  left: 5px; /* 왼쪽 화살표 위치 수정 */
+  bottom: 20%;
+}
+
+.controller span.next {
+  position:absolute; /* 추가 */
+  right: 5px; /* 오른쪽 화살표 위치 수정 */
+  bottom: 20%;
+}
+.controller span:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
